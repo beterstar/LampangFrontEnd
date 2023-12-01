@@ -1,0 +1,9 @@
+{
+    "LOGIN":{
+        "EMAIL_OR_USERNAME":"Email or Username",
+        "PASSWORD":"Password",
+        "REMEMBER_PASSWORD":"Remember password",
+        "FORGOT_PASSWORD":"Forgot Password?",
+        "LOGIN":"Login"
+    }
+}
