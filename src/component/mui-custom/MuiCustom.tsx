@@ -18,9 +18,11 @@ export const ButtonCustom = styled(Button)({
     width:"100%",
     backgroundColor:colors.lampang_primary,
     borderRadius:"6px",
+    padding:"12.67 12.67px",
     boxShadow:"0 1px 2px 0 rgba(0,0,0,0.04) !important",
     '&:hover':{
         backgroundColor:colors.lampang_primary,
-        boxShadow:"0 3px 14px 0 rgba(0,0,0,0.12) !important"
+        boxShadow:"0 2px 0px 0 rgba(0,0,0,0.12) !important"
     }
 })
+

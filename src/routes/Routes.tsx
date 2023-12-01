@@ -1,5 +1,6 @@
 import React from "react";
 import { authRoute } from "./auth-route/auth.route";
+import { homeRoute } from "./home-route/home.route";
 
 
 interface routes {
@@ -12,5 +13,6 @@ interface routes {
 
 
 export const RoutesComponent: routes[] = [
-    ...authRoute
+    ...authRoute,
+    ...homeRoute
 ]

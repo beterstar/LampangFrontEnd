@@ -1,9 +1,13 @@
 {
-    "LOGIN":{
-        "EMAIL_OR_USERNAME":"Email or Username",
-        "PASSWORD":"Password",
-        "REMEMBER_PASSWORD":"Remember password",
-        "FORGOT_PASSWORD":"Forgot Password?",
-        "LOGIN":"Login"
+    "LOGIN": {
+        "EMAIL_OR_USERNAME": "Email or Username",
+        "PASSWORD": "Password",
+        "REMEMBER_PASSWORD": "Remember password",
+        "FORGOT_PASSWORD": "Forgot Password?",
+        "LOGIN": "Login",
+        "VALIDATE_LOGIN": {
+            "USERNAME": "Please enter your email or username",
+            "PASSWORD": "Please enter your password"
+        }
     }
 }

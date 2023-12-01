@@ -4,6 +4,10 @@
         "PASSWORD":"รหัสผ่าน",
         "REMEMBER_PASSWORD":"จดจำรหัสผ่าน",
         "FORGOT_PASSWORD":"ลืมรหัสผ่าน ?",
-        "LOGIN":"เข้าสู่ระบบ"
+        "LOGIN":"เข้าสู่ระบบ",
+        "VALIDATE_LOGIN":{
+            "USERNAME":"กรุณาระบุอีเมลหรือชื่อผู้ใช้งาน",
+            "PASSWORD":"กรุณาระบุรหัสผ่าน"
+        }
     }
 }

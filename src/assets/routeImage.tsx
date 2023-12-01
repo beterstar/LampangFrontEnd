@@ -5,6 +5,18 @@ import loginLogo from './icons/logo-login.svg'
 import usernameIcon from './icons/username-login.svg'
 import passwordIcon from './icons/password-login.svg'
 import eyePasswordIcon from './icons/eye-login.svg'
+import user from '../assets/icons/user.svg'
+import downArrow from '../assets/icons/down-arrow.svg'
+import notification from '../assets/icons/notification.svg'
+import book from '../assets/icons/book.svg'
+import plusButton from '../assets/icons/plus.svg'
+
+// after login
+import berger from './icons/berger.svg'
+
+// navbar
+import statisticsIcon from './nav/statistics.svg'
+import projectInformation from './nav/projectInformation.svg'
 
 
 export const RouteImage = {
@@ -12,11 +24,19 @@ export const RouteImage = {
 
 
     // logo
-    login_logo:loginLogo,
-    
+    login_logo: loginLogo,
+
     // icons
-    login_username_icon:usernameIcon,
-    login_password_icon:passwordIcon,
-    login_eye_icon:eyePasswordIcon
-    
+    login_username_icon: usernameIcon,
+    login_password_icon: passwordIcon,
+    login_eye_icon: eyePasswordIcon,
+    berger: berger,
+    statisticsIcon: statisticsIcon,
+    projectInformation: projectInformation,
+    user: user,
+    downArrow: downArrow,
+    notification:notification,
+    book:book,
+    plusButton:plusButton
+
 }
