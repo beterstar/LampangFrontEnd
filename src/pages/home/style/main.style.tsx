@@ -15,7 +15,7 @@ export const MainContainer = styled('div')({
 })
 
 export const Content = styled(Box)({
-    width:"100%",
+    flex:"1",
     height:"100%",
     padding:"44px 48px"
 })

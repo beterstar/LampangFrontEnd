@@ -7,7 +7,7 @@ const CustomTextField = styled(TextField)<{ inputHeight?: any }>(
     width: "100%",
     ".MuiOutlinedInput-root": {
       height: inputHeight || 43,
-      borderRadius: 8,
+      borderRadius: 6,
       "&:not(.Mui-disabled)": {
         backgroundColor: colors.white,
       },

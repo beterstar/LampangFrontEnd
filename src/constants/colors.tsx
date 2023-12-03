@@ -7,17 +7,16 @@ export const colors = {
     
     lampang_text_secondary:"#858C95",
 
-
-
+    lampang_button_secondary:"#EEA23E",
 
 
 
 
     // theme main color
-    themeMainColor:"#0873BA",
+    themeMainColor:"#026735",
     // main color
     transparent: "transparent",
-    themeSecondColor: "#14378A",
+    themeSecondColor: "#026735",
     themeThirdColor: '#42A18A',
     paleBlue: "#d8e8f4",
     themeResetColor: "#FC8F8F",

@@ -13,6 +13,7 @@ import plusButton from '../assets/icons/plus.svg'
 
 // after login
 import berger from './icons/berger.svg'
+import addButton from './icons/add-icon.svg'
 
 // navbar
 import statisticsIcon from './nav/statistics.svg'
@@ -37,6 +38,7 @@ export const RouteImage = {
     downArrow: downArrow,
     notification:notification,
     book:book,
-    plusButton:plusButton
+    plusButton:plusButton,
+    addButton:addButton
 
 }

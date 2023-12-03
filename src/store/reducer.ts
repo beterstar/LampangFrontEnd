@@ -3,7 +3,7 @@ interface State {
 }
 
 const initialState: State = {
-    active: false,
+    active: true,
 };
 
 const reducer = (state: State = initialState, action: any) => {
