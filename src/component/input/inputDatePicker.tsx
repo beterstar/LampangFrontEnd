@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { LocalizationProvider, DesktopDatePicker } from '@mui/lab'
 import { th } from 'date-fns/locale'
 import _ from 'lodash'
@@ -109,6 +109,7 @@ interface DatePickerType {
     disableToday?: boolean
     heading?: string
     headingAlign?: any
+    headingNormal?:boolean
 }
 
 export default function InputDatePicker(props: DatePickerType) {
@@ -119,8 +120,10 @@ export default function InputDatePicker(props: DatePickerType) {
                     className="pb-2"
                     style={{ textAlign: "left" || props.headingAlign }}
                 >
-                    {props.heading}{" "}
-                    {props.required && <span style={{ color: colors.red }}>*</span>}
+                    <Typography variant={props.headingNormal ? 'subtitle1' : 'subtitle2'}>
+                        {props.heading}{" "} {props.required && <span style={{ color: colors.red }}>*</span>}
+                    </Typography>
+
                 </div>
             )}
             <LocalizationProvider dateAdapter={DateAdapter} locale={th}>

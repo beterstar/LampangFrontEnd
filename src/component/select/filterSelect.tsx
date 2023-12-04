@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles'
-import { FormControl, Select, MenuItem } from '@mui/material'
+import { FormControl, Select, MenuItem, Typography } from '@mui/material'
 import './style.css'
 import _ from 'lodash'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -29,7 +29,8 @@ type BasicSelectProps = {
     classesOption?: string
     inputHeight?: number
     heading?: string
-    headingAlign?: 'center' | 'left' | 'right'
+    headingAlign?: 'center' | 'left' | 'right',
+    headingNormal?:boolean
 }
 
 const StyledFilterSelect = styled(Select)<{ inputHeight?: number }>(({ theme, inputHeight }) => ({
@@ -93,7 +94,9 @@ export default function FilterSelect(props: BasicSelectProps) {
         <>
             {props.heading &&
                 <div className='pb-2 flex gap-1' style={{ textAlign: 'left' || props.headingAlign }}>
-                    {props.heading} {props.required && <p className='text-text_danger'>*</p>}
+                    <Typography variant={props.headingNormal ? 'subtitle1' : 'subtitle2'}>
+                        {props.heading}
+                    </Typography> {props.required && <p className='text-text_danger'>*</p>}
                 </div>
             }
             <CustomFormControl className={`${props.formControlClass}`} size="small" margin="none" fullWidth={props.fullWidth !== undefined ? props.fullWidth : true} disabled={props.disabled} sx={{ ...props.formControlStyle }}>

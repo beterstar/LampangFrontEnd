@@ -32,6 +32,7 @@ export const ButtonOutlined = styled(Button)({
     height: '40px',
     width: "100%",
     minWidth: "97px",
+    textTransform:"none",
     backgroundColor: colors.lampang_sub_primary,
     borderRadius: "8px",
     border: `1px solid ${colors.lampang_primary}`,

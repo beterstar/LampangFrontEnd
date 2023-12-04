@@ -33,7 +33,20 @@ export const theme = createTheme({
         },
     },
     typography: {
+        //normal text base
         body1:{
+            fontSize:"16px",
+            fontWeight:"400",
+            lineHeight:"23.92px"
+        },
+        // heading shape
+        subtitle1:{
+            fontSize:"14px",
+            fontWeight:"300",
+            lineHeight:"21px"
+        },
+        // heading bold
+        subtitle2:{
             fontSize:"16px",
             fontWeight:"400",
             lineHeight:"23.92px"

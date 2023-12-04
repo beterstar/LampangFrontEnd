@@ -2,6 +2,7 @@ import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import { colors } from "../../constants/colors";
 import HelperText from "./helperText";
+import { Typography } from "@mui/material";
 const CustomTextField = styled(TextField)<{ inputHeight?: any }>(
   ({ theme, inputHeight }) => ({
     width: "100%",
@@ -106,6 +107,7 @@ const CustomTextField = styled(TextField)<{ inputHeight?: any }>(
 );
 
 type InputProps = {
+  onFocus?: (value: any) => void;
   onchange?: (value: any) => void;
   onkeyup?: (value: any) => void;
   onkeypress?: (value: any) => void;
@@ -135,6 +137,7 @@ type InputProps = {
   headingAlign?: string;
   multiline?: boolean;
   maxRows?: any;
+  headingNormal?: boolean;
 };
 
 export default function InputTextField(props: InputProps) {
@@ -147,8 +150,9 @@ export default function InputTextField(props: InputProps) {
           className="pb-2"
           style={{ textAlign: "left" || props.headingAlign }}
         >
-          {props.heading}{" "}
-          {props.required && <span style={{ color: colors.red }}>*</span>}
+          <Typography variant={props.headingNormal ? 'subtitle1' : 'subtitle2'}>
+            {props.heading}{" "} {props.required && <span style={{ color: colors.red }}>*</span>}
+          </Typography>
         </div>
       )}
       <CustomTextField
@@ -173,6 +177,7 @@ export default function InputTextField(props: InputProps) {
         }}
         className={`${props.helperText ? "filed-error" : ""} ${props.hideControl ? "hide-control" : ""
           }`}
+        onFocus={props.onFocus}
         onChange={props.onchange}
         onBlur={props.onblur}
         onKeyUp={props.onkeyup}
