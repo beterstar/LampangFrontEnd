@@ -44,7 +44,7 @@ const ProjectInformation: React.FC = () => {
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
     const [pageLimit, setPageLimit] = useState<number>(5);
-    const [totalPage, setTotalPage] = useState<number>(10);
+    const [totalPage, setTotalPage] = useState<number>(2);
     const [endDate, setEndDate] = useState<string>("");
     const [fiscalYear, setFiscalYear] = useState<number>(Number);
     const [allStatus, setAllStatus] = useState<number>(Number);
@@ -134,7 +134,7 @@ const ProjectInformation: React.FC = () => {
 
     return (
         <styled.ContainerHome>
-            <Navbar />
+            <Navbar />  
             <styled.MainContainer>
                 <Header />
                 <styled.Content>
@@ -161,7 +161,7 @@ const ProjectInformation: React.FC = () => {
                     </section>
                     <section className='w-full mt-8'>
                         <article className='grid grid-cols-12 gap-x-1 gap-y-2'>
-                            <span className='col-span-12 lg:col-span-2'>
+                            <span className='col-span-12 lg:col-span-2 self-end'>
                                 <InputDatePicker
                                     headingNormal
                                     inputName='startProject'
@@ -178,7 +178,7 @@ const ProjectInformation: React.FC = () => {
                                     heading={t("ถึงวันที่")}
                                 />
                             </span>
-                            <span className='col-span-12 lg:col-span-2'>
+                            <span className='col-span-12 lg:col-span-2 self-end'>
                                 <FilterSelect
                                     headingNormal
                                     heading={t("ปีงบประมาณ")}
@@ -247,8 +247,8 @@ const ProjectInformation: React.FC = () => {
                             </span>
                             {/* space */}
                             <span className='col-span-1'></span>
-                            <span className='col-span-12 lg:col-span-2 flex gap-1 overflow-hidden'>
-                                <span className='flex-1'>
+                            <span className='col-span-12 lg:col-span-2 flex justify-end gap-1 overflow-hidden'>
+                                <span className='flex-1 self-end'>
                                     <FilterSelect
                                         headingNormal
                                         heading={t("รูปแบบการพิมพ์")}
@@ -271,14 +271,17 @@ const ProjectInformation: React.FC = () => {
                                         ]}
                                     />
                                 </span>
-                                <span className='w-auto self-end'>
+                                <span className='w-auto flex flex-col self-end gap-2'>
+                                    <Typography variant='subtitle1'>
+                                        {t("ส่งออกเอกสาร")}
+                                    </Typography>
                                     <ButtonOutlined
                                         endIcon={<img src={RouteImage.download} />}
                                         sx={{
                                             width: "100%",
                                             minWidth: "auto",
                                             maxWidth: "93px",
-                                            height: "42px",
+                                            height: "43.5px",
                                             backgroundColor: "inherit",
                                             color: "#000",
                                             border: `1px solid #E5E5E7`,
@@ -314,7 +317,6 @@ const ProjectInformation: React.FC = () => {
                         />
                     </section>
                 </styled.Content>
-                <button></button>
             </styled.MainContainer>
         </styled.ContainerHome >
     )

@@ -23,7 +23,12 @@ import { Dropdown } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import Code from '@mui/icons-material/Code'
-import { styled } from '@mui/material'
+import { Typography, styled } from '@mui/material'
+
+
+// ICON
+import EastIcon from '@mui/icons-material/East';
+import WestIcon from '@mui/icons-material/West';
 
 /** TRANSLATION*/
 import { useTranslation } from 'react-i18next'
@@ -49,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
             }
         },
         // BG CONTENT
-        '& $td':{
+        '& $td': {
             // backgroundColor:"#F8F9FB !important"
         }
     },
@@ -134,8 +139,8 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     iconButton: {
-        border: `1px solid ${colors.themeMainColor} !important`,
-        color: `${colors.themeMainColor}  !important`,
+        // border: `1px solid ${colors.themeMainColor} !important`,
+        color: `${colors.black}  !important`,
         margin: '2.5px !important',
         '&.MuiButtonBase-root:not(.Mui-disabled)': {
             opacity: 1
@@ -148,8 +153,10 @@ const useStyles = makeStyles((theme) => ({
             opacity: 0.7
         },
         '&.MuiButtonBase-root.active': {
-            backgroundColor: `${colors.themeMainColor}  !important`,
-            color: `${colors.white}  !important`
+            // backgroundColor: `${colors.themeMainColor}  !important`,
+            border: `1px solid #E5E5E7`,
+            color: `${colors.themeMainColor}`
+            // color: `${colors.white}  !important`
         },
         '&.MuiButtonBase-root:hover': {
             backgroundColor: `${colors.themeMainColor}  !important`,
@@ -166,6 +173,7 @@ const useStyles = makeStyles((theme) => ({
 export function TablePaginationActions(props: any) {
     const theme = useTheme()
     const classes = useStyles()
+    const { t } = useTranslation();
 
     const { count, page, rowsPerPage, onPageChange } = props
 
@@ -215,16 +223,20 @@ export function TablePaginationActions(props: any) {
     }
 
     return (
-        <Box className='justify-end' sx={{ flexShrink: 0, ml: 2.5 }}>
+        <Box className='flex items-center justify-end gap-1' sx={{ flexShrink: 0, ml: 2.5 }}>
             {/* <IconButton className={classes.iconButton} onClick={handleFirstPageButtonClick} disabled={page === 1} aria-label="หน้าแรก">
                 {theme.direction === 'rtl' ? <LastPageIcon fontSize="small" /> : <FirstPageIcon fontSize="small" />}
             </IconButton> */}
             <IconButton className={classes.iconButton} onClick={handleBackButtonClick} disabled={page === 1} aria-label="ก่อนหน้า">
-                {theme.direction === 'rtl' ? <KeyboardArrowRight fontSize="small" /> : <KeyboardArrowLeft fontSize="small" />}
+                {theme.direction === 'rtl' ? <EastIcon fontSize="small" /> : <WestIcon fontSize="small" />}
             </IconButton>
+            <div>{t("BUTTON.PREVIOUS")}</div>
             {renderPage(Math.ceil(count / rowsPerPage))}
-            <IconButton className={classes.iconButton} onClick={handleNextButtonClick} disabled={page >= Math.ceil(count / rowsPerPage)} aria-label="ต่อไป">
-                {theme.direction === 'rtl' ? <KeyboardArrowLeft fontSize="small" /> : <KeyboardArrowRight fontSize="small" />}
+            <div>{t("BUTTON.NEXT_TABLE")}</div>
+            <IconButton
+                sx={{}}
+                className={classes.iconButton} onClick={handleNextButtonClick} disabled={page >= Math.ceil(count / rowsPerPage)} aria-label="ต่อไป">
+                {theme.direction === 'rtl' ? <WestIcon fontSize="small" /> : <EastIcon fontSize="small" />}
             </IconButton>
             {/* <IconButton className={classes.iconButton} onClick={handleLastPageButtonClick} disabled={page >= Math.ceil(count / rowsPerPage)} aria-label="สุดท้าย">
                 {theme.direction === 'rtl' ? <FirstPageIcon fontSize="small" /> : <LastPageIcon fontSize="small" />}
@@ -272,7 +284,8 @@ export default function TableCustom(props: any) {
         const from = page * pageLimit - pageLimit + 1
         const to = page * pageLimit
         const count = Number(rowCount)
-        return `${numberFormat(from, 0, 0)}-${count <= to ? numberFormat(count, 0, 0) : numberFormat(to, 0, 0)} ${t('PAGINATION.LIST')} ${t('PAGINATION.FROM')} ${numberFormat(count, 0, 0)} ${t('PAGINATION.LIST')}`
+        // return `${numberFormat(from, 0, 0)}-${count <= to ? numberFormat(count, 0, 0) : numberFormat(to, 0, 0)} ${t('PAGINATION.LIST')} ${t('PAGINATION.FROM')} ${numberFormat(count, 0, 0)} ${t('PAGINATION.LIST')}`
+        return `${t("PAGINATION.QUANTITY")} ${numberFormat(count, 0, 0)}`
     }
 
     return (
@@ -342,27 +355,35 @@ export default function TableCustom(props: any) {
                 </Table>
             </TableContainer>
             {!props.hidePagination && (
-                <TablePagination
-                    component="div"
-                    className={classes.pagination}
-                    rowsPerPageOptions={[5, 10, 25, 100]}
-                    colSpan={headCells.length}
-                    count={rowCount || 0}
-                    rowsPerPage={pageLimit}
-                    page={page}
-                    labelRowsPerPage={t('PAGINATION.QTY_PER_PAGE')}
-                    SelectProps={{
-                        inputProps: {
-                            // 'aria-label': 'จำนวนต่อหน้า'
-                        },
-                        native: true
-                    }}
-                    labelDisplayedRows={defaultLabelDisplayedRows}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    ActionsComponent={TablePaginationActions}
-                    sx={{ flex: 'none' }}
-                />
+                <div className='flex justify-between items-center overflow-auto'>
+                    <div className='w-auto'>
+                        <Typography variant='body2' >
+                            {defaultLabelDisplayedRows()}
+                        </Typography>
+                    </div>
+                    <TablePagination
+                        component="div"
+                        className={classes.pagination}
+                        rowsPerPageOptions={[5, 10, 25, 100]}
+                        colSpan={headCells.length}
+                        count={rowCount || 0}
+                        rowsPerPage={pageLimit}
+                        page={page}
+                        labelRowsPerPage={t('PAGINATION.QTY_PER_PAGE')}
+                        // labelRowsPerPage={t('')}
+                        SelectProps={{
+                            inputProps: {
+                                // 'aria-label': 'จำนวนต่อหน้า'
+                            },
+                            native: true
+                        }}
+                        labelDisplayedRows={defaultLabelDisplayedRows}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        ActionsComponent={TablePaginationActions}
+                        sx={{ flex: 'none' }}
+                    />
+                </div>
             )}
         </>
     )
@@ -429,11 +450,12 @@ export function TablePaginationMiniCustom(props: ITablePaginationMiniCustomProps
         const from = page * pageLimit - pageLimit + 1
         const to = page * pageLimit
         const count = Number(rowCount)
-        return `${numberFormat(from, 0, 0)} - ${count <= to ? numberFormat(count, 0, 0) : numberFormat(to, 0, 0)} ${t('PAGINATION.LIST')} ${t('PAGINATION.FROM')} ${numberFormat(count, 0, 0)} ${t('PAGINATION.LIST')}`
+        // return `${numberFormat(from, 0, 0)} - ${count <= to ? numberFormat(count, 0, 0) : numberFormat(to, 0, 0)} ${t('PAGINATION.LIST')} ${t('PAGINATION.FROM')} ${numberFormat(count, 0, 0)} ${t('PAGINATION.LIST')}`
+        return `${numberFormat(count, 0, 0)}`
     }
 
     return (
-        <div className='row w-full'>
+        <div className='grid-flow-row w-full'>
             <TablePaginationMini
                 className={classes.pagination}
                 rowsPerPageOptions={[10, 25, 50, 100]}

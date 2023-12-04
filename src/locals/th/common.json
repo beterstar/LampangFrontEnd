@@ -3,6 +3,8 @@
         "ADD": "เพิ่ม",
         "EDIT": "แก้ไข",
         "DELETE": "ลบรายการ",
+        "NEXT_TABLE":"ต่อไป",
+        "PREVIOUS":"ก่อนหน้า",
         "CANCEL": "ยกเลิก",
         "SAVE": "บันทึก",
         "SAVE_DRAFT":"บันทึกร่าง",
@@ -29,6 +31,7 @@
     "PAGINATION": {
         "LIST": "รายการ",
         "FROM": "จาก",
-        "QTY_PER_PAGE": "จำนวนต่อหน้า"
+        "QTY_PER_PAGE": "จำนวนต่อหน้า",
+        "QUANTITY":"จำนวน"
     }
 }

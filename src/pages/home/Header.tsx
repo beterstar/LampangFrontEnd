@@ -40,7 +40,7 @@ const Header: React.FC = (props: Props) => {
                     <span className='cursor-pointer' onClick={handleToggle}>
                         <img width={32} height={32} src={RouteImage.berger} alt="sidebar" />
                     </span>
-                    <section className='flex w-auto max-w-[600px] h-[42px]'>
+                    <section className='flex w-auto max-w-none md:max-w-[600px] h-[42px]'>
                         <article className='hidden md:flex flex-1 justify-start mr-3 items-center '>
                             <span><img src={RouteImage.book} alt="" /></span>
                             <span className='pl-1'>{t("คู่มือการใช้งาน")}</span>
@@ -48,15 +48,15 @@ const Header: React.FC = (props: Props) => {
                             
                             </span>
                         </article>
-                        <article className='h-full'>
+                        <article className='h-full w-auto'>
                             <div className='h-full border-[1px] border-light hidden md:block'></div>
                         </article>
                         <article className='flex justify-between items-center gap-x-2 w-auto ml-3'>
                             <div className='w-[50px] h-[30px] md:h-full rounded-[50%] bg-[#E5E5E7] flex justify-center items-center'>
                                 <img src={RouteImage.user} alt="user" />
                             </div>
-                            <div className='w-full max-w-[238px] flex justify-start items-center'>
-                                <div>
+                            <div className='w-full max-w-none md:max-w-[238px] flex justify-start items-center'>
+                                <div className='relative'>
                                     <Button
                                         sx={{ padding: "0", width: "auto", minWidth: "0" }}
                                         id="drop-down-header"

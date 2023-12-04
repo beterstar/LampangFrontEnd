@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import moment from 'moment'
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
 
 // COMPONENT
 import * as styled from '../style/main.style'
@@ -10,12 +13,19 @@ import Header from '../Header'
 import FilterSelect from '../../../component/select/filterSelect'
 import InputDatePicker from '../../../component/input/inputDatePicker'
 import InputTextField from '../../../component/input/inputTextField'
-import { MenuItem, Typography } from '@mui/material'
+import { MenuItem, Typography, TextareaAutosize } from '@mui/material'
 import { ButtonOutlined, ButtonContained } from '../../../component/mui-custom/MuiCustom'
 import { colors } from '../../../constants/colors'
 import { RouteImage } from '../../../assets/routeImage'
+import { withStyles } from '@material-ui/core';
+
 
 type Props = {}
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
 
 
 type typeProject = {
@@ -40,9 +50,52 @@ type createProjectProps = {
     startProject: string;
     endProject: string;
     projectNameId: number;
+    detailProject: string;
     project: typeProject[];
     disbursement: typeDisbursement[];
 }
+
+function a11yProps(index: number) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+const CustomTab = withStyles({
+    root: {
+        borderRadius: "6px 6px 0 0 !important",
+        backgroundColor: "inherit",
+        color: `${colors.black} important`,
+    },
+    selected: {
+        backgroundColor: `${colors.themeMainColor} !important`,
+        color: `${colors.white} !important`
+    },
+    indicator: {
+        backgroundColor: '#000 !important'
+    }
+})(Tab);
+
 
 const CreateProjectInformation = (props: Props) => {
     // CONSTANT 👇
@@ -58,6 +111,7 @@ const CreateProjectInformation = (props: Props) => {
         startProject: "",
         endProject: "",
         projectNameId: 0,
+        detailProject: "",
         project: [{
             typeProjectId: 0,
             typeGroupQuestId: 0,
@@ -72,7 +126,11 @@ const CreateProjectInformation = (props: Props) => {
         }]
     })
     const [isDisbursement, setIsDisbursement] = useState<boolean>(false);
+    const [value, setValue] = React.useState(0);
 
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+    };
 
     const handleAddDisbursement = () => {
         let newRow: typeDisbursement = {
@@ -110,7 +168,7 @@ const CreateProjectInformation = (props: Props) => {
                                         {t("สร้างโครงการ")}
                                     </Typography>
                                 </span>
-                                <span className='flex gap-1'>
+                                <span className='flex flex-wrap md:flex-nowrap gap-1 gap-y-2'>
                                     <ButtonOutlined variant='outlined'>
                                         <Typography className='text-primary' variant='body1'>
                                             {t("BUTTON.SAVE_DRAFT")}
@@ -365,14 +423,26 @@ const CreateProjectInformation = (props: Props) => {
                                 </div>
                             </article>
                             <article className="grid grid-cols-12 gap-2">
-                                <div className='col-span-2'>
+                                <div className='col-span-12'>
+                                    <InputTextField
+                                        size='medium'
+                                        multiline
+                                        value={formState.detailProject}
+                                        onchange={(e) => setFormState({ ...formState, ['detailProject']: e.target.value })}
+                                        heading={t("รายละเอียดโครงการ")}
+                                    />
+                                </div>
+                            </article>
+
+                            <article className="grid grid-cols-12 gap-2">
+                                <div className='col-span-12 lg:col-span-2'>
                                     <InputDatePicker
                                         inputName='startProject'
                                         inputHeight={42}
                                         dateFormat="DD/MM/YYYY"
                                         required={true}
                                         key={"START_PROJECT"}
-                                        value={formState.startProject}
+                                        value={""}
                                         placeholder={t('ระบุวันเริ่มต้นโครงการ')}
                                         onClear={() => setFormState({ ...formState, ['startProject']: "" })}
                                         onChange={(e: any) => {
@@ -382,15 +452,15 @@ const CreateProjectInformation = (props: Props) => {
                                         heading={t("เริ่มต้นโครงการ")}
                                     />
                                 </div>
-                                <div className='col-span-2'>
+                                <div className='col-span-12 lg:col-span-2'>
                                     <InputDatePicker
                                         inputName='startProject'
                                         inputHeight={42}
                                         dateFormat="DD/MM/YYYY"
                                         required={true}
-                                        key={"START_PROJECT"}
-                                        value={formState.startProject}
-                                        placeholder={t('ระบุวันเริ่มต้นโครงการ')}
+                                        key={"END_PROJECT"}
+                                        value={""}
+                                        placeholder={t('ระบุวันสิ้นสุดโครงการ')}
                                         onClear={() => setFormState({ ...formState, ['startProject']: "" })}
                                         onChange={(e: any) => {
                                             setFormState({ ...formState, ['startProject']: moment(e).format("YYYY-MM-DD") })
@@ -400,14 +470,50 @@ const CreateProjectInformation = (props: Props) => {
                                     />
                                 </div>
                             </article>
-
+                            <article className='w-full'>
+                                <Box sx={{ width: '100%' }}>
+                                    <Box className='flex justify-between items-end'>
+                                        <Tabs
+                                            TabIndicatorProps={{ sx: { backgroundColor: colors.white } }}
+                                            value={value}
+                                            onChange={handleChange}
+                                            aria-label="project-tabs">
+                                            <CustomTab label={<Typography>{"โครงการหลัก"}</Typography>} {...a11yProps(0)} />
+                                            <CustomTab label={<Typography>{"กิจกรรม1"}</Typography>} {...a11yProps(1)} />
+                                            <CustomTab label={<Typography>{"กิจกรรม2"}</Typography>} {...a11yProps(2)} />
+                                        </Tabs>
+                                        <span >
+                                            <ButtonOutlined
+                                                startIcon={<img src={RouteImage.addForm} alt='add-icon' />}
+                                                sx={{
+                                                    borderRadius: "6px 6px 0 0", height: "42px", border: `1px solid ${colors.borderInput}`, '&:hover': {
+                                                        // boxShadow:"none"
+                                                    }
+                                                }}>
+                                                <Typography className='text-primary'>{"เพิ่มโครงการย่อย"}</Typography>
+                                            </ButtonOutlined>
+                                        </span>
+                                    </Box>
+                                    <div className='bg-light'>
+                                        <CustomTabPanel value={value} index={0}>
+                                            Item One
+                                        </CustomTabPanel>
+                                        <CustomTabPanel value={value} index={1}>
+                                            Item Two
+                                        </CustomTabPanel>
+                                        <CustomTabPanel value={value} index={2}>
+                                            Item Three
+                                        </CustomTabPanel>
+                                    </div>
+                                </Box>
+                            </article>
 
                             <article className='grid grid-cols-12 gap-2'>
                                 <div className='col-span-12 flex justify-between flex-1'>
                                     <Typography variant='h6'>
                                         {t("งวดเบิกจ่าย")}
                                     </Typography>
-                                    <Typography onClick={()=>setIsDisbursement(!isDisbursement)} className='cursor-pointer' variant='h6'>
+                                    <Typography onClick={() => setIsDisbursement(!isDisbursement)} className='cursor-pointer' variant='h6'>
                                         <img className={`${isDisbursement ? 'rotate-180' : 'rotate-0'}`} src={RouteImage.downArrow} alt="drop-down" />
                                     </Typography>
                                 </div>

@@ -22,6 +22,7 @@ import projectInformation from './nav/projectInformation.svg'
 // icon
 import download from './icons/download.svg'
 import arrowTopBottom from './icons/arrow-top-and-bottom.svg'
+import addForm from './icons/add-form.svg'
 
 export const RouteImage = {
     bg_login: loginBackground,
@@ -39,12 +40,13 @@ export const RouteImage = {
     projectInformation: projectInformation,
     user: user,
     downArrow: downArrow,
-    notification:notification,
-    book:book,
-    plusButton:plusButton,
-    addButton:addButton,
-    download:download,
-    arrowTopBottom:arrowTopBottom
+    notification: notification,
+    book: book,
+    plusButton: plusButton,
+    addButton: addButton,
+    download: download,
+    arrowTopBottom: arrowTopBottom,
+    addForm: addForm
 
 
 }

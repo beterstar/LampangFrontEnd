@@ -4,12 +4,9 @@ export const colors = {
     lampang_primary:"#026735",
     lampang_secondary:"#FFC700",
     lampang_sub_primary:"#EFFFF7",
-    
     lampang_text_secondary:"#858C95",
 
     lampang_button_secondary:"#EEA23E",
-
-
 
 
     // theme main color

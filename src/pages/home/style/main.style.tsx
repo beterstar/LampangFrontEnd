@@ -10,13 +10,13 @@ export const ContainerHome = styled(Box)({
 
 export const MainContainer = styled('div')({
     width: '100%',
+    maxWidth:"100vw",
     display: 'flex',
-    flex: "1 1 0%",
+    flex: "1 1 0",
     flexDirection: "column"
 })
 
-export const Content = styled(Box)(({ theme }) => ({
-    width: "100%",
+export const Content = styled('div')(({ theme }) => ({
     flex: "1",
     height: "100%",
     padding: "44px 48px",

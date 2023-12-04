@@ -3,6 +3,8 @@
         "ADD": "Add",
         "EDIT": "Edit",
         "DELETE": "Delete Item",
+        "NEXT_TABLE":"Next",
+        "PREVIOUS":"Previous",
         "CANCEL": "Cancel",
         "SAVE": "Save",
         "SAVE_DRAFT":"Save a draft",
@@ -29,6 +31,7 @@
     "PAGINATION": {
         "LIST": "List",
         "FROM": "From",
-        "QTY_PER_PAGE": "Quantity per Page"
+        "QTY_PER_PAGE": "Quantity per Page",
+        "QUANTITY":"Quantity"
     }
 }
