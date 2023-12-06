@@ -94,7 +94,7 @@ export default function FilterSelect(props: BasicSelectProps) {
         <>
             {props.heading &&
                 <div className='pb-2 flex gap-1' style={{ textAlign: 'left' || props.headingAlign }}>
-                    <Typography variant={props.headingNormal ? 'subtitle1' : 'subtitle2'}>
+                    <Typography variant={props.headingNormal ? 'subtitle1' : 'body1'}>
                         {props.heading}
                     </Typography> {props.required && <p className='text-text_danger'>*</p>}
                 </div>

@@ -5,6 +5,11 @@ import moment from 'moment'
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import { withStyles } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
+
+// TYPE
+import { createProjectProps, typeDisbursement, TabPanelProps, projectProgress, Project } from './type/project.type';
 
 // COMPONENT
 import * as styled from '../style/main.style'
@@ -13,54 +18,35 @@ import Header from '../Header'
 import FilterSelect from '../../../component/select/filterSelect'
 import InputDatePicker from '../../../component/input/inputDatePicker'
 import InputTextField from '../../../component/input/inputTextField'
-import { MenuItem, Typography, TextareaAutosize } from '@mui/material'
+import { MenuItem, Typography } from '@mui/material'
 import { ButtonOutlined, ButtonContained } from '../../../component/mui-custom/MuiCustom'
 import { colors } from '../../../constants/colors'
 import { RouteImage } from '../../../assets/routeImage'
-import { withStyles } from '@material-ui/core';
+import Dropdown from '../../../component/dropdown/Dropdown';
+import LabelCustom from '../../../component/label/LabelCustom';
+
+// STORE
+import { addProject } from '../../../store/slice/projectSlice/projectSlice';
+import * as setFormState from '../../../store/slice/projectSlice/projectSlice'
 
 
 type Props = {}
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-}
 
 
-type typeProject = {
-    typeProjectId: number;
-    typeGroupQuestId: number;
-    startProject: string;
-    endProject: string;
-}
-type typeDisbursement = {
-    date: string;
-    totalBudget: string;
-    totalDisbursement: string;
-    outstandingBudget: string;
-}
-// FORM TYPE 👇
-type createProjectProps = {
-    agencyId: number;
-    fiscalYear: number;
-    strategy: number;
-    tacticsId: number;
-    plan: number;
-    startProject: string;
-    endProject: string;
-    projectNameId: number;
-    detailProject: string;
-    project: typeProject[];
-    disbursement: typeDisbursement[];
-}
 
-function a11yProps(index: number) {
+function projectTabsProps(index: number) {
     return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
+        id: `project-tab-${index}`,
+        'aria-controls': `project-tabpanel-${index}`,
     };
 }
+function indicatorTabsProps(index: number) {
+    return {
+        id: `indicator-tab-${index}`,
+        'aria-controls': `indicator-tabpanel-${index}`,
+    };
+}
+
 
 function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
@@ -69,18 +55,38 @@ function CustomTabPanel(props: TabPanelProps) {
         <div
             role="tabpanel"
             hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
+            id={`project-tabpanel-${index}`}
+            aria-labelledby={`project-tab-${index}`}
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{ padding: "12px 12px" }}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
         </div>
     );
 }
+function IndicatorCustomTabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`indicator-tabpanel-${index}`}
+            aria-labelledby={`indicator-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ padding: "12px 12px" }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
 const CustomTab = withStyles({
     root: {
         borderRadius: "6px 6px 0 0 !important",
@@ -100,37 +106,18 @@ const CustomTab = withStyles({
 const CreateProjectInformation = (props: Props) => {
     // CONSTANT 👇
     const { t } = useTranslation();
+    const dispatch = useDispatch();
+    const formState = useSelector((state: any) => state.project)
+
+    console.log(formState)
 
     // STATE 👇
-    const [formState, setFormState] = useState<createProjectProps>({
-        agencyId: 0,
-        fiscalYear: 0,
-        strategy: 0,
-        tacticsId: 0,
-        plan: 0,
-        startProject: "",
-        endProject: "",
-        projectNameId: 0,
-        detailProject: "",
-        project: [{
-            typeProjectId: 0,
-            typeGroupQuestId: 0,
-            startProject: "",
-            endProject: ""
-        }],
-        disbursement: [{
-            date: "",
-            totalBudget: "",
-            totalDisbursement: "",
-            outstandingBudget: "",
-        }]
-    })
     const [isDisbursement, setIsDisbursement] = useState<boolean>(false);
-    const [value, setValue] = React.useState(0);
+    const [projectTabs, setProjectTabs] = useState<number>(0);
+    const [indicatorTabs, setIndicatorTabs] = useState<number>(0);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
+    const handleChangeProjectTabs = (event: React.SyntheticEvent, newValue: number) => setProjectTabs(newValue)
+    const handleChangeIndicatorTabs = (event: React.SyntheticEvent, newValue: number) => setIndicatorTabs(newValue)
 
     const handleAddDisbursement = () => {
         let newRow: typeDisbursement = {
@@ -139,10 +126,45 @@ const CreateProjectInformation = (props: Props) => {
             totalDisbursement: "",
             outstandingBudget: "",
         }
-        setFormState((prev: createProjectProps) => {
-            return ({ ...prev, disbursement: [...prev.disbursement, newRow] });
-        })
+        // setFormState((prev: createProjectProps) => {
+        //     return ({ ...prev, disbursement: [...prev.disbursement, newRow] });
+        // })
     }
+
+    const handleAddProject = () => {
+        let projectData: Project = {
+            projectProgress: [
+                {
+                    endProject: "",
+                    startProject: ""
+                }
+            ],
+            disbursement: [
+                {
+                    date: "",
+                    outstandingBudget: "",
+                    totalBudget: "",
+                    totalDisbursement: ""
+                }
+            ]
+        }
+
+        dispatch(addProject(projectData));
+    };
+    const handleAddProjectProgress = () => {
+        let data: projectProgress = {
+            endProject: "",
+            startProject: ""
+        }
+        dispatch(setFormState.addProjectProgress(data))
+    }
+    const handleStartDateChange = (newStartDate: string) => {
+        dispatch(setFormState.changeProjectProgress({ startProject: newStartDate }));
+    };
+
+    const handleEndDateChange = (newEndDate: string) => {
+        dispatch(setFormState.changeProjectProgress({ endProject: newEndDate }));
+    };
 
 
     const handleSubmit = (event: React.FormEvent) => {
@@ -206,7 +228,7 @@ const CreateProjectInformation = (props: Props) => {
                                         labelId="label-status"
                                         onchange={(event) => {
                                             const value = event.target.value
-                                            value && setFormState({ ...formState, ['agencyId']: value })
+                                            value && dispatch(setFormState.setAgencyId(value))
                                         }}
                                         options={[
                                             <MenuItem key="1" value={1}>
@@ -232,7 +254,7 @@ const CreateProjectInformation = (props: Props) => {
                                         labelId="label-fiscal-year"
                                         onchange={(event) => {
                                             const value = event.target.value
-                                            value && setFormState({ ...formState, ['fiscalYear']: value })
+                                            value && dispatch(setFormState.setFiscalYear(value))
                                         }}
                                         options={[
                                             <MenuItem key="1" value={1}>
@@ -255,7 +277,7 @@ const CreateProjectInformation = (props: Props) => {
                                         labelId="label-setStrategy"
                                         onchange={(event) => {
                                             const value = event.target.value
-                                            value && setFormState({ ...formState, ['strategy']: value })
+                                            // value && setFormState({ ...formState, ['strategy']: value })
                                         }}
                                         options={[
                                             <MenuItem key="1" value={1}>
@@ -280,7 +302,7 @@ const CreateProjectInformation = (props: Props) => {
                                         labelId="label-tacticsId"
                                         onchange={(event) => {
                                             const value = event.target.value
-                                            value && setFormState({ ...formState, ['tacticsId']: value })
+                                            // value && setFormState({ ...formState, ['tacticsId']: value })
                                         }}
                                         options={[
                                             <MenuItem key="1" value={1}>
@@ -303,7 +325,7 @@ const CreateProjectInformation = (props: Props) => {
                                         labelId="label-plan"
                                         onchange={(event) => {
                                             const value = event.target.value
-                                            value && setFormState({ ...formState, ['plan']: value })
+                                            // value && setFormState({ ...formState, ['plan']: value })
                                         }}
                                         options={[
                                             <MenuItem key="1" value={1}>
@@ -324,9 +346,9 @@ const CreateProjectInformation = (props: Props) => {
                                         key={"START_PROJECT"}
                                         value={formState.startProject}
                                         placeholder={t('ระบุวันเริ่มต้นโครงการ')}
-                                        onClear={() => setFormState({ ...formState, ['startProject']: "" })}
+                                        // onClear={() => setFormState({ ...formState, ['startProject']: "" })}
                                         onChange={(e: any) => {
-                                            setFormState({ ...formState, ['startProject']: moment(e).format("YYYY-MM-DD") })
+                                            // setFormState({ ...formState, ['startProject']: moment(e).format("YYYY-MM-DD") })
                                         }}
                                         allowClear
                                         heading={t("เริ่มต้นโครงการ")}
@@ -341,9 +363,9 @@ const CreateProjectInformation = (props: Props) => {
                                         key={"END_PROJECT"}
                                         value={formState.endProject}
                                         placeholder={t('ระบุวันสิ้นสุดโครงการ')}
-                                        onClear={() => setFormState({ ...formState, ['endProject']: "" })}
+                                        // onClear={() => setFormState({ ...formState, ['endProject']: "" })}
                                         onChange={(e: any) => {
-                                            setFormState((prev) => ({ ...prev, ['endProject']: moment(e).format("YYYY-MM-DD") }))
+                                            // setFormState((prev) => ({ ...prev, ['endProject']: moment(e).format("YYYY-MM-DD") }))
                                         }}
                                         allowClear
                                         heading={t("สิ้นสุดโครงการ")}
@@ -362,7 +384,7 @@ const CreateProjectInformation = (props: Props) => {
                                         labelId="label-project-name"
                                         onchange={(event) => {
                                             const value = event.target.value
-                                            value && setFormState({ ...formState, ['projectNameId']: value })
+                                            // value && setFormState({ ...formState, ['projectNameId']: value })
                                         }}
                                         options={[
                                             <MenuItem key="1" value={1}>
@@ -389,7 +411,7 @@ const CreateProjectInformation = (props: Props) => {
                                         labelId="label-project-name"
                                         onchange={(event) => {
                                             const value = event.target.value
-                                            value && setFormState({ ...formState, ['plan']: value })
+                                            // value && setFormState({ ...formState, ['plan']: value })
                                         }}
                                         options={[
                                             <MenuItem key="1" value={1}>
@@ -412,7 +434,7 @@ const CreateProjectInformation = (props: Props) => {
                                         labelId="label-project-name"
                                         onchange={(event) => {
                                             const value = event.target.value
-                                            value && setFormState({ ...formState, ['plan']: value })
+                                            // value && setFormState({ ...formState, ['plan']: value })
                                         }}
                                         options={[
                                             <MenuItem key="1" value={1}>
@@ -428,156 +450,534 @@ const CreateProjectInformation = (props: Props) => {
                                         size='medium'
                                         multiline
                                         value={formState.detailProject}
-                                        onchange={(e) => setFormState({ ...formState, ['detailProject']: e.target.value })}
+                                        onchange={(e) => { }}
                                         heading={t("รายละเอียดโครงการ")}
                                     />
                                 </div>
                             </article>
 
-                            <article className="grid grid-cols-12 gap-2">
-                                <div className='col-span-12 lg:col-span-2'>
-                                    <InputDatePicker
-                                        inputName='startProject'
-                                        inputHeight={42}
-                                        dateFormat="DD/MM/YYYY"
-                                        required={true}
-                                        key={"START_PROJECT"}
-                                        value={""}
-                                        placeholder={t('ระบุวันเริ่มต้นโครงการ')}
-                                        onClear={() => setFormState({ ...formState, ['startProject']: "" })}
-                                        onChange={(e: any) => {
-                                            setFormState({ ...formState, ['startProject']: moment(e).format("YYYY-MM-DD") })
-                                        }}
-                                        allowClear
-                                        heading={t("เริ่มต้นโครงการ")}
-                                    />
-                                </div>
-                                <div className='col-span-12 lg:col-span-2'>
-                                    <InputDatePicker
-                                        inputName='startProject'
-                                        inputHeight={42}
-                                        dateFormat="DD/MM/YYYY"
-                                        required={true}
-                                        key={"END_PROJECT"}
-                                        value={""}
-                                        placeholder={t('ระบุวันสิ้นสุดโครงการ')}
-                                        onClear={() => setFormState({ ...formState, ['startProject']: "" })}
-                                        onChange={(e: any) => {
-                                            setFormState({ ...formState, ['startProject']: moment(e).format("YYYY-MM-DD") })
-                                        }}
-                                        allowClear
-                                        heading={t("สิ้นสุดโครงการ")}
-                                    />
-                                </div>
-                            </article>
+                            {/* 👇 tabs center */}
                             <article className='w-full'>
                                 <Box sx={{ width: '100%' }}>
-                                    <Box className='flex justify-between items-end'>
+                                    <Box className='w-full flex flex-col justify-start items-start gap-2 md:flex-row md:justify-between md:items-end overflow-auto'>
                                         <Tabs
-                                            TabIndicatorProps={{ sx: { backgroundColor: colors.white } }}
-                                            value={value}
-                                            onChange={handleChange}
+                                            TabIndicatorProps={{ sx: { backgroundColor: colors.white, display: "flex", flexWrap: "wrap" } }}
+                                            value={projectTabs}
+                                            onChange={handleChangeProjectTabs}
                                             aria-label="project-tabs">
-                                            <CustomTab label={<Typography>{"โครงการหลัก"}</Typography>} {...a11yProps(0)} />
-                                            <CustomTab label={<Typography>{"กิจกรรม1"}</Typography>} {...a11yProps(1)} />
-                                            <CustomTab label={<Typography>{"กิจกรรม2"}</Typography>} {...a11yProps(2)} />
+                                            {formState.projects?.map((list: any, index: number) => (
+                                                <CustomTab label={<Typography>{index === 0 ? "โครงการหลัก" : `กิจกรรม${index + 1}`}</Typography>} {...projectTabsProps(index)} />
+                                            ))}
                                         </Tabs>
                                         <span >
                                             <ButtonOutlined
+                                                onClick={handleAddProject}
                                                 startIcon={<img src={RouteImage.addForm} alt='add-icon' />}
                                                 sx={{
-                                                    borderRadius: "6px 6px 0 0", height: "42px", border: `1px solid ${colors.borderInput}`, '&:hover': {
-                                                        // boxShadow:"none"
-                                                    }
+                                                    borderRadius: "6px 6px 0 0", height: "42px", border: `1px solid ${colors.borderInput}`
                                                 }}>
                                                 <Typography className='text-primary'>{"เพิ่มโครงการย่อย"}</Typography>
                                             </ButtonOutlined>
                                         </span>
                                     </Box>
-                                    <div className='bg-light'>
-                                        <CustomTabPanel value={value} index={0}>
-                                            Item One
-                                        </CustomTabPanel>
-                                        <CustomTabPanel value={value} index={1}>
-                                            Item Two
-                                        </CustomTabPanel>
-                                        <CustomTabPanel value={value} index={2}>
-                                            Item Three
-                                        </CustomTabPanel>
+                                    <div className='bg-bg_secondary mt-2'>
+                                        {formState.projects?.map((list: Project, index: number) => (
+                                            <CustomTabPanel key={index} value={projectTabs} index={index}>
+                                                {list.projectProgress?.map((list, i: number) => (
+                                                    <section className='w-full'>
+                                                        <article className='flex items-center justify-between'>
+                                                            <span className='flex flex-col'>
+                                                                <LabelCustom
+                                                                    variant='h6'
+                                                                    isRequired
+                                                                    text='งวดความคืบหน้าโครงการ'
+                                                                />
+                                                                <LabelCustom
+                                                                    className='mt-2'
+                                                                    text={t(`งวดที่ ${i + 1} ภายในวันที่`)}
+                                                                    variant='body1'
+                                                                />
+                                                            </span>
+                                                            <span>
+                                                                <Dropdown />
+                                                            </span>
+                                                        </article>
+                                                        <article className="mt-2 grid grid-cols-12 gap-2">
+                                                            <div className='col-span-12 lg:col-span-2'>
+                                                                <InputDatePicker
+                                                                    inputName='startProject'
+                                                                    inputHeight={42}
+                                                                    dateFormat="DD/MM/YYYY"
+                                                                    required={true}
+                                                                    key={"START_PROJECT"}
+                                                                    value={list.startProject}
+                                                                    placeholder={t('ระบุวันเริ่มต้นโครงการ')}
+                                                                    onClear={() => handleStartDateChange("")}
+                                                                    onChange={(e: any) => {
+                                                                        handleStartDateChange(moment(e).format("YYYY-MM-DD"))
+                                                                    }}
+                                                                    allowClear
+                                                                    heading={t("เริ่มต้นโครงการ")}
+                                                                />
+                                                            </div>
+                                                            <div className='col-span-12 lg:col-span-2'>
+                                                                <InputDatePicker
+                                                                    inputName='startProject'
+                                                                    inputHeight={42}
+                                                                    dateFormat="DD/MM/YYYY"
+                                                                    required={true}
+                                                                    key={"END_PROJECT"}
+                                                                    value={list.endProject}
+                                                                    placeholder={t('ระบุวันสิ้นสุดโครงการ')}
+                                                                    onClear={() => handleEndDateChange("")}
+                                                                    onChange={(e: any) => {
+                                                                        handleEndDateChange(moment(e).format("YYYY-MM-DD"))
+                                                                    }}
+                                                                    allowClear
+                                                                    heading={t("สิ้นสุดโครงการ")}
+                                                                />
+                                                            </div>
+                                                            <div className='col-span-12 lg:col-span-2 self-end'>
+                                                                {i === 0 && (
+                                                                    <ButtonOutlined
+                                                                        onClick={handleAddProjectProgress}
+                                                                        sx={{ maxWidth: "75px", width: "100%", height: '42px' }}
+                                                                        startIcon={<img className='max-w-20' src={RouteImage.addButton} />}
+                                                                    >
+                                                                        <Typography className='text-primary' variant='body1'>
+                                                                            {t("BUTTON.ADD")}
+                                                                        </Typography>
+                                                                    </ButtonOutlined>
+                                                                )}
+                                                            </div>
+                                                        </article>
+                                                    </section>
+                                                ))}
+
+                                                {/* งวดเบิกจ่าย  👇 */}
+                                                <section className='w-full mt-2'>
+                                                    <article className='grid grid-cols-12 gap-2'>
+                                                        <div className='col-span-12 flex justify-between flex-1'>
+                                                            <LabelCustom
+                                                                variant='h6'
+                                                                text='งวดเบิกจ่าย'
+                                                                isRequired
+                                                            />
+                                                            <Typography onClick={() => setIsDisbursement(!isDisbursement)} className='cursor-pointer' variant='h6'>
+                                                                <img className={`${isDisbursement ? 'rotate-180' : 'rotate-0'}`} src={RouteImage.downArrow} alt="drop-down" />
+                                                            </Typography>
+                                                        </div>
+                                                        <div className={`contents ${isDisbursement ? 'invisible' : 'visible'} duration-100`}>
+                                                            {formState.disbursement.map((list: any, index: number) => (
+                                                                <motion.div
+                                                                    className='contents'
+                                                                    initial={{ y: -50 }}
+                                                                    animate={{ y: 0 }}
+                                                                    transition={{ ease: "easeInOut", stiffness: 40 }}
+                                                                    key={index}>
+                                                                    <div className='col-span-12 lg:col-span-2'>
+                                                                        <InputDatePicker
+                                                                            inputName='startProject'
+                                                                            inputHeight={42}
+                                                                            dateFormat="DD/MM/YYYY"
+                                                                            // required={true}
+                                                                            key={"START_PROJECT"}
+                                                                            value={list.date}
+                                                                            placeholder={t('ระบุวันที่')}
+                                                                            // onClear={() => setFormState({ ...formState, ['startProject']: "" })}
+                                                                            onChange={(e: any) => {
+                                                                                // setFormState({ ...formState, ['startProject']: moment(e).format("YYYY-MM-DD") })
+                                                                            }}
+                                                                            allowClear
+                                                                            heading={`งวดที่ ${index + 1} ภายในวันที่`}
+                                                                        />
+                                                                    </div>
+                                                                    <div className='col-span-12 lg:col-span-2'>
+                                                                        <InputTextField
+
+                                                                            heading={t("งบประมาณรวม (บาท)")}
+                                                                        />
+                                                                    </div>
+                                                                    <div className='col-span-12 lg:col-span-2'>
+                                                                        <InputTextField
+                                                                            value={list.totalDisbursement}
+                                                                            heading={t("ยอดเบิกจ่ายรวม (บาท)")}
+                                                                        />
+                                                                    </div>
+                                                                    <div className='col-span-12 lg:col-span-3'>
+                                                                        <InputTextField
+                                                                            value={list.outstandingBudget}
+                                                                            heading={t("ยอดงบประมาณค้างเบิก (บาท)")}
+                                                                        />
+                                                                    </div>
+                                                                    <div className='col-span-12 lg:col-span-1 flex justify-start items-end'>
+                                                                        {index === formState.disbursement.length - 1 && (
+                                                                            <ButtonOutlined
+                                                                                onClick={handleAddDisbursement}
+                                                                                sx={{ maxWidth: "75px", width: "100%", height: '42px' }}
+                                                                                startIcon={<img src={RouteImage.addButton} />}
+                                                                            >
+                                                                                <Typography className='text-primary' variant='body1'>
+                                                                                    {t("BUTTON.ADD")}
+                                                                                </Typography>
+                                                                            </ButtonOutlined>
+                                                                        )}
+                                                                    </div>
+                                                                    <div className='col-span-2'></div>
+                                                                </motion.div>
+                                                            ))}
+                                                        </div>
+                                                    </article>
+                                                </section>
+
+
+                                                {/* แหล่งงงบประมาณ  👇 */}
+                                                <section className='w-full mt-2'>
+                                                    <article className='flex items-center justify-between'>
+                                                        <LabelCustom
+                                                            variant='h6'
+                                                            text={t("แหล่งงงบประมาณ")}
+                                                        />
+                                                        <Dropdown />
+                                                    </article>
+                                                    <article className='grid grid-cols-12 mt-2'>
+                                                        <div className='col-span-12 lg:col-span-4'>
+                                                            <FilterSelect
+                                                                required
+                                                                heading={t("แหล่งที่มาของงบประมาณ")}
+                                                                renderValue={() => "เลือก"}
+                                                                label={t('STATUS.LABEL')}
+                                                                selectId="select-fiscal-year"
+                                                                value={formState.fiscalYear}
+                                                                labelId="label-fiscal-year"
+                                                                onchange={(event) => {
+                                                                    const value = event.target.value
+                                                                    // value && setFormState({ ...formState, ['fiscalYear']: value })
+                                                                }}
+                                                                options={[
+                                                                    <MenuItem key="1" value={1}>
+                                                                        {t('value 1')}
+                                                                    </MenuItem>,
+                                                                    <MenuItem key="2" value={2}>
+                                                                        {t('value 2')}
+                                                                    </MenuItem>
+                                                                ]}
+                                                            />
+                                                        </div>
+                                                    </article>
+                                                    <article className='grid grid-cols-12 gap-2 mt-2'>
+                                                        <span className=' col-span-12 lg:col-span-2 self-end'>
+                                                            <InputTextField
+                                                                required
+                                                                value={""}
+                                                                onchange={(e) => { }}
+                                                                heading={t("งบประมาณโครงการ (บาท)")}
+                                                            />
+                                                        </span>
+                                                        <span className=' col-span-12 lg:col-span-2 self-end'>
+                                                            <InputTextField
+                                                                required
+                                                                value={""}
+                                                                onchange={(e) => { }}
+                                                                heading={t("งบประมาณคุรุภัณฑ์ (บาท)")}
+                                                            />
+                                                        </span>
+                                                        <span className=' col-span-12 lg:col-span-2 self-end'>
+                                                            <InputTextField
+                                                                required
+                                                                value={""}
+                                                                onchange={(e) => { }}
+                                                                heading={t("เงินโอนเพิ่มงบประมาณ (บาท)")}
+                                                            />
+                                                        </span>
+                                                        <span className=' col-span-12 lg:col-span-2 self-end'>
+                                                            <InputTextField
+                                                                required
+                                                                value={""}
+                                                                onchange={(e) => { }}
+                                                                heading={t("เงินโอนลดงบประมาณ (บาท)")}
+                                                            />
+                                                        </span>
+                                                        <span className=' col-span-12 lg:col-span-2 self-end'>
+                                                            <InputTextField
+                                                                style={{ backgroundColor: "#FFFAF2" }}
+                                                                required
+                                                                value={""}
+                                                                onchange={(e) => { }}
+                                                                heading={t("งบประมาณรวม (บาท)")}
+                                                            />
+                                                        </span>
+                                                        <span className=' col-span-12 lg:col-span-2 self-end'>
+                                                            <ButtonOutlined
+                                                                sx={{ maxWidth: "75px", width: "100%", height: '42px' }}
+                                                                startIcon={<img className='max-w-20' src={RouteImage.addButton} />}
+                                                            >
+                                                                <Typography className='text-primary' variant='body1'>
+                                                                    {t("BUTTON.ADD")}
+                                                                </Typography>
+                                                            </ButtonOutlined>
+                                                        </span>
+                                                    </article>
+                                                    <article className='grid grid-cols-12 gap-2 mt-2'>
+                                                        <div className='col-span-12'>
+                                                            <InputTextField
+                                                                value={""}
+                                                                heading={t("หมายเหตุ (แหล่งที่มาของงบประมาณ)")}
+                                                            />
+                                                        </div>
+                                                    </article>
+                                                </section>
+
+                                                {/* งบประมาณรวม  👇 */}
+                                                <section className='w-full mt-2'>
+                                                    <article className='grid grid-cols-12 gap-2 mt-2'>
+                                                        <span className='col-span-12 lg:col-span-2 self-end'>
+                                                            <InputTextField
+                                                                value={""}
+                                                                heading={t("งบประมาณรวม (บาท)")}
+                                                            />
+                                                        </span>
+                                                        <span className='col-span-12 lg:col-span-2 self-end'>
+                                                            <InputTextField
+
+                                                                value={""}
+                                                                heading={t("ยอดเบิกจ่ายรวม (บาท)")}
+                                                            />
+                                                        </span>
+                                                        <span className='col-span-12 lg:col-span-2 self-end'>
+                                                            <InputTextField
+                                                                value={""}
+                                                                heading={t("ยอดงบประมาณค้างเบิก (บาท)")}
+                                                            />
+                                                        </span>
+                                                    </article>
+                                                    <article className='grid grid-cols-12 gap-2 mt-2'>
+                                                        <span className='col-span-12 lg:col-span-10'>
+                                                            <FilterSelect
+                                                                required
+                                                                heading={t("ผู้รับผิดชอบโครงการหลัก")}
+                                                                renderValue={() => "เลือก"}
+                                                                label={t('STATUS.LABEL')}
+                                                                selectId="select-fiscal-year"
+                                                                value={""}
+                                                                labelId="label-fiscal-year"
+                                                                onchange={(event) => {
+                                                                    // const value = event.target.value
+                                                                    // value && setFormState({ ...formState, ['fiscalYear']: value })
+                                                                }}
+                                                                options={[
+                                                                    <MenuItem key="1" value={1}>
+                                                                        {t('value 1')}
+                                                                    </MenuItem>,
+                                                                    <MenuItem key="2" value={2}>
+                                                                        {t('value 2')}
+                                                                    </MenuItem>
+                                                                ]}
+                                                            />
+                                                        </span>
+                                                        <span className='col-span-6 lg:col-span-2'>
+                                                            <InputTextField
+                                                                value={""}
+                                                                heading={t("สัดส่วนที่รับผิดชอบ (%)")}
+
+                                                            />
+                                                        </span>
+                                                    </article>
+                                                    <article className='w-full flex justify-start lg:justify-end items-center mt-2'>
+                                                        <div className='w-auto'>
+                                                            <ButtonOutlined
+                                                                sx={{ maxWidth: "75px", width: "100%", height: '42px' }}
+                                                                startIcon={<img className='max-w-20' src={RouteImage.addButton} />}
+                                                            >
+                                                                <Typography className='text-primary' variant='body1'>
+                                                                    {t("BUTTON.ADD")}
+                                                                </Typography>
+                                                            </ButtonOutlined>
+                                                        </div>
+                                                    </article>
+                                                    <article className='grid grid-cols-12 mt-2'>
+                                                        <div className='col-span-12'>
+                                                            <InputTextField
+                                                                size='medium'
+                                                                multiline
+                                                                value={""}
+                                                                onchange={(e) => { }}
+                                                                heading={t("รายละเอียดโครงการ")}
+                                                            />
+                                                        </div>
+                                                    </article>
+                                                </section>
+
+                                            </CustomTabPanel>
+                                        ))}
                                     </div>
                                 </Box>
                             </article>
 
-                            <article className='grid grid-cols-12 gap-2'>
-                                <div className='col-span-12 flex justify-between flex-1'>
-                                    <Typography variant='h6'>
-                                        {t("งวดเบิกจ่าย")}
-                                    </Typography>
-                                    <Typography onClick={() => setIsDisbursement(!isDisbursement)} className='cursor-pointer' variant='h6'>
-                                        <img className={`${isDisbursement ? 'rotate-180' : 'rotate-0'}`} src={RouteImage.downArrow} alt="drop-down" />
+                            {/* ตัวชี้วัดประเมินผลโครงการ  👇 */}
+                            <article className='w-full'>
+                                <div className='w-full'>
+                                    <Typography className='text-primary' variant='h4'>
+                                        {t("ตัวชี้วัดประเมินผลโครงการ")}
                                     </Typography>
                                 </div>
-                                <div className={`contents ${isDisbursement ? 'invisible' : 'visible'} duration-100`}>
-                                    {formState.disbursement.map((list, index: number) => (
-                                        <motion.div
-                                            className='contents'
-                                            initial={{ y: -50 }}
-                                            animate={{ y: 0 }}
-                                            transition={{ ease: "easeInOut", stiffness: 40 }}
-                                            key={index}>
-                                            <div className='col-span-12 lg:col-span-2'>
-                                                <InputDatePicker
-                                                    inputName='startProject'
-                                                    inputHeight={42}
-                                                    dateFormat="DD/MM/YYYY"
-                                                    // required={true}
-                                                    key={"START_PROJECT"}
-                                                    value={list.date}
-                                                    placeholder={t('ระบุวันที่')}
-                                                    onClear={() => setFormState({ ...formState, ['startProject']: "" })}
-                                                    onChange={(e: any) => {
-                                                        setFormState({ ...formState, ['startProject']: moment(e).format("YYYY-MM-DD") })
-                                                    }}
-                                                    allowClear
-                                                    heading={`งวดที่ ${index + 1} ภายในวันที่`}
-                                                />
-                                            </div>
-                                            <div className='col-span-12 lg:col-span-2'>
-                                                <InputTextField
-                                                    value={list.totalBudget}
-                                                    heading={t("งบประมาณรวม (บาท)")}
-                                                />
-                                            </div>
-                                            <div className='col-span-12 lg:col-span-2'>
-                                                <InputTextField
-                                                    value={list.totalDisbursement}
-                                                    heading={t("ยอดเบิกจ่ายรวม (บาท)")}
-                                                />
-                                            </div>
-                                            <div className='col-span-12 lg:col-span-2'>
-                                                <InputTextField
-                                                    value={list.outstandingBudget}
-                                                    heading={t("ยอดงบประมาณค้างเบิก (บาท)")}
-                                                />
-                                            </div>
-                                            <div className='col-span-12 lg:col-span-1 flex justify-start items-end'>
-                                                {index === formState.disbursement.length - 1 && (
-                                                    <ButtonOutlined
-                                                        onClick={handleAddDisbursement}
-                                                        sx={{ maxWidth: "75px", width: "100%", height: '42px' }}
-                                                        startIcon={<img src={RouteImage.addButton} />}
-                                                    >
-                                                        <Typography className='text-primary' variant='body1'>
-                                                            {t("BUTTON.ADD")}
-                                                        </Typography>
-                                                    </ButtonOutlined>
-                                                )}
-                                            </div>
-                                            <div className='col-span-3'></div>
-                                        </motion.div>
-                                    ))}
-                                </div>
+
+                                {/* TABS */}
+                                <section className='w-full mt-2'>
+                                    <Box className='flex flex-col justify-start items-start gap-2 md:flex-row md:justify-between md:items-end'>
+                                        <Tabs
+                                            TabIndicatorProps={{ sx: { backgroundColor: colors.white } }}
+                                            value={indicatorTabs}
+                                            onChange={handleChangeIndicatorTabs}
+                                            aria-label="indicators-tabs">
+                                            <CustomTab label={<Typography>{"ตัวชี้วัดเรื่องที่ 1"}</Typography>}  {...indicatorTabsProps(0)} />
+                                            <CustomTab label={<Typography>{"ตัวชี้วัดเรื่องที่ 2"}</Typography>}  {...indicatorTabsProps(1)} />
+                                        </Tabs>
+                                        <span className='w-auto'>
+                                            <ButtonOutlined
+                                                startIcon={<img src={RouteImage.addForm} alt='add-icon' />}
+                                                sx={{
+                                                    borderRadius: "6px 6px 0 0", height: "42px", border: `1px solid ${colors.borderInput}`
+                                                }}>
+                                                <Typography className='text-primary'>{"เพิ่มตัวชี้วัด"}</Typography>
+                                            </ButtonOutlined>
+                                        </span>
+                                    </Box>
+                                    <Box className='bg-bg_secondary w-full mt-2'>
+                                        <IndicatorCustomTabPanel value={indicatorTabs} index={0}>
+                                            <article className='grid grid-cols-12 gap-2'>
+                                                <span className='col-span-12 lg:col-span-11'>
+                                                    <FilterSelect
+                                                        required
+                                                        heading={t("เรื่อง")}
+                                                        renderValue={() => "เลือก"}
+                                                        label={t('STATUS.LABEL')}
+                                                        selectId="indicator-topic"
+                                                        value={formState.fiscalYear}
+                                                        labelId="label-indicator-topic"
+                                                        onchange={(event) => {
+                                                            // const value = event.target.value
+                                                            // value && setFormState({ ...formState, ['fiscalYear']: value })
+                                                        }}
+                                                        options={[
+                                                            <MenuItem key="1" value={1}>
+                                                                {t('value 1')}
+                                                            </MenuItem>,
+                                                            <MenuItem key="2" value={2}>
+                                                                {t('value 2')}
+                                                            </MenuItem>
+                                                        ]}
+                                                    />
+                                                </span>
+                                                <span className='col-span-12 lg:col-span-1'>
+                                                    <InputTextField
+                                                        value={""}
+                                                        heading={t("สัดส่วน (%)")}
+                                                    />
+                                                </span>
+                                            </article>
+                                            <article className='w-full mt-3'>
+                                                <LabelCustom className='w-full mt-3' variant='h6' text='Level 1' />
+                                                <Box className="grid grid-cols-12 gap-x-2 gap-y-3">
+                                                    <span className='col-span-6 lg:col-span-2 self-end'>
+                                                        <InputTextField
+                                                            placeholder='0.00'
+                                                            value={""}
+                                                            heading={t("ค่าเริ่มต้น")}
+                                                        />
+                                                    </span>
+                                                    <span className='col-span-6 lg:col-span-2 self-end'>
+                                                        <InputTextField
+                                                            placeholder='0.00'
+                                                            value={""}
+                                                            heading={t("ค่าสูงสุด")}
+                                                        />
+                                                    </span>
+                                                </Box>
+
+                                                <LabelCustom className='w-full mt-3' variant='h6' text='Level 2' />
+                                                <Box className="grid grid-cols-12 gap-x-2 gap-y-3">
+                                                    <span className='col-span-6 lg:col-span-2 self-end'>
+                                                        <InputTextField
+                                                            placeholder='0.00'
+                                                            value={""}
+                                                            heading={t("ค่าเริ่มต้น")}
+                                                        />
+                                                    </span>
+                                                    <span className='col-span-6 lg:col-span-2 self-end'>
+                                                        <InputTextField
+                                                            placeholder='0.00'
+                                                            value={""}
+                                                            heading={t("ค่าสูงสุด")}
+                                                        />
+                                                    </span>
+                                                </Box>
+
+                                                <LabelCustom className='w-full mt-3' variant='h6' text='Level 3' />
+                                                <Box className="grid grid-cols-12 gap-x-2 gap-y-3">
+                                                    <span className='col-span-6 lg:col-span-2 self-end'>
+                                                        <InputTextField
+                                                            placeholder='0.00'
+                                                            value={""}
+                                                            heading={t("ค่าเริ่มต้น")}
+                                                        />
+                                                    </span>
+                                                    <span className='col-span-6 lg:col-span-2 self-end'>
+                                                        <InputTextField
+                                                            placeholder='0.00'
+                                                            value={""}
+                                                            heading={t("ค่าสูงสุด")}
+                                                        />
+                                                    </span>
+                                                </Box>
+                                                <LabelCustom className='w-full mt-3' variant='h6' text='Level 4' />
+                                                <Box className="grid grid-cols-12 gap-x-2 gap-y-3">
+                                                    <span className='col-span-6 lg:col-span-2 self-end'>
+                                                        <InputTextField
+                                                            placeholder='0.00'
+                                                            value={""}
+                                                            heading={t("ค่าเริ่มต้น")}
+                                                        />
+                                                    </span>
+                                                    <span className='col-span-6 lg:col-span-2 self-end'>
+                                                        <InputTextField
+                                                            placeholder='0.00'
+                                                            value={""}
+                                                            heading={t("ค่าสูงสุด")}
+                                                        />
+                                                    </span>
+                                                </Box>
+                                                <LabelCustom className='w-full mt-3' variant='h6' text='Level 5' />
+                                                <Box className="grid grid-cols-12 gap-x-2 gap-y-3">
+                                                    <span className='col-span-6 lg:col-span-2 self-end'>
+                                                        <InputTextField
+                                                            placeholder='0.00'
+                                                            value={""}
+                                                            heading={t("ค่าเริ่มต้น")}
+                                                        />
+                                                    </span>
+                                                    <span className='col-span-6 lg:col-span-2 self-end'>
+                                                        <InputTextField
+                                                            placeholder='0.00'
+                                                            value={""}
+                                                            heading={t("ค่าสูงสุด")}
+                                                        />
+                                                    </span>
+                                                </Box>
+                                            </article>
+                                        </IndicatorCustomTabPanel>
+
+
+
+
+
+                                        <IndicatorCustomTabPanel value={indicatorTabs} index={1}>
+                                            tab2
+                                        </IndicatorCustomTabPanel>
+                                    </Box>
+                                </section>
                             </article>
+
                         </motion.section>
                     </form>
                 </styled.Content>

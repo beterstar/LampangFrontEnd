@@ -1,3 +1,5 @@
+
+
 import React from 'react'
 import Header from '../Header'
 import * as styled from '../style/main.style'
@@ -5,7 +7,7 @@ import Navbar from '../Navbar'
 import { useTranslation } from 'react-i18next'
 import { Typography } from '@mui/material'
 
-const Statistics: React.FC = () => {
+const UsageStatistics: React.FC = () => {
     const { t } = useTranslation();
     return (
         <styled.ContainerHome>
@@ -15,7 +17,7 @@ const Statistics: React.FC = () => {
                 <styled.Content>
                     <section>
                         <Typography variant='h4'>
-                            สถิติข้อมูล
+                            สถิติการใช้งาน
                         </Typography>
                     </section>
                 </styled.Content>
@@ -25,4 +27,4 @@ const Statistics: React.FC = () => {
     )
 }
 
-export default Statistics
+export default UsageStatistics

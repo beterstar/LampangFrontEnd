@@ -8,14 +8,14 @@ import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { setBoolean } from '../../store/action';
+import { toggle } from '../../store/slice/navbarActive/navbarSlice';
 
 type Props = {}
 
 const Header: React.FC = (props: Props) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    const active = useSelector((state: any) => state.active);
+
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -29,8 +29,9 @@ const Header: React.FC = (props: Props) => {
     };
 
     const handleToggle = () => {
-        dispatch(setBoolean(!active));
+        dispatch(toggle());
     };
+
 
     return (
         <>
@@ -45,7 +46,7 @@ const Header: React.FC = (props: Props) => {
                             <span><img src={RouteImage.book} alt="" /></span>
                             <span className='pl-1'>{t("คู่มือการใช้งาน")}</span>
                             <span className='pl-3'><img src={RouteImage.notification} alt="alarm" />
-                            
+
                             </span>
                         </article>
                         <article className='h-full w-auto'>

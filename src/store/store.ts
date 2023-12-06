@@ -1,8 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import reducer from './reducer';
+import { configureStore } from "@reduxjs/toolkit";
+import proJectReducer from "./slice/projectSlice/projectSlice";
+import navbarReducer from "./slice/navbarActive/navbarSlice";
 
 const store = configureStore({
-    reducer: reducer,
+  reducer: {
+    navbar: navbarReducer,
+    project: proJectReducer,
+  },
 });
 
 export default store;

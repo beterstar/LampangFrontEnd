@@ -22,7 +22,7 @@ function App() {
         {/* Private Route Zone */}
         <Route element={<PrivateRoute />}>
           {/* 👇 */}
-          
+
         </Route>
 
         {/* 404 PAGE 👇 */}

@@ -150,7 +150,7 @@ export default function InputTextField(props: InputProps) {
           className="pb-2"
           style={{ textAlign: "left" || props.headingAlign }}
         >
-          <Typography variant={props.headingNormal ? 'subtitle1' : 'subtitle2'}>
+          <Typography variant={props.headingNormal ? 'subtitle1' : 'body1'}>
             {props.heading}{" "} {props.required && <span style={{ color: colors.red }}>*</span>}
           </Typography>
         </div>

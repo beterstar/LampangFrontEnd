@@ -10,6 +10,7 @@ import downArrow from '../assets/icons/down-arrow.svg'
 import notification from '../assets/icons/notification.svg'
 import book from '../assets/icons/book.svg'
 import plusButton from '../assets/icons/plus.svg'
+import list from './icons/list.svg'
 
 // after login
 import berger from './icons/berger.svg'
@@ -18,6 +19,10 @@ import addButton from './icons/add-icon.svg'
 // navbar
 import statisticsIcon from './nav/statistics.svg'
 import projectInformation from './nav/projectInformation.svg'
+import projectStatus from './nav/projectStatus.svg'
+import report from './nav/report.svg'
+import usageStatistics from './nav/usageStatistics.svg'
+import setting from './nav/setting.svg'
 
 // icon
 import download from './icons/download.svg'
@@ -36,8 +41,6 @@ export const RouteImage = {
     login_password_icon: passwordIcon,
     login_eye_icon: eyePasswordIcon,
     berger: berger,
-    statisticsIcon: statisticsIcon,
-    projectInformation: projectInformation,
     user: user,
     downArrow: downArrow,
     notification: notification,
@@ -46,7 +49,17 @@ export const RouteImage = {
     addButton: addButton,
     download: download,
     arrowTopBottom: arrowTopBottom,
-    addForm: addForm
+    addForm: addForm,
+    list:list
 
 
+}
+
+export const navbarRouteImage = {
+    statisticsIcon: statisticsIcon,
+    projectInformation: projectInformation,
+    projectStatus: projectStatus,
+    report: report,
+    usageStatistics:usageStatistics,
+    setting:setting
 }

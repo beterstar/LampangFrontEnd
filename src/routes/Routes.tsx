@@ -6,7 +6,8 @@ import { homeRoute } from "./home-route/home.route";
 interface routes {
     key: string;
     path: string;
-    labelName: string;
+    labelNameEn: string;
+    labelNameTh: string;
     component: React.ComponentType;
 }
 

@@ -7,6 +7,7 @@ module.exports = {
       text_danger: "#E33B32",
       primary: "#026735",
       sub_primary: "#EFFFF7",
+      bg_secondary:"#F8F9FB",
       secondary: "#FFC700",
       light: "#E5E5E7",
       white: "#ffffff",
