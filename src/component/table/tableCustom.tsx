@@ -35,7 +35,15 @@ import { useTranslation } from 'react-i18next'
 import InputCheckbox from '../input/inputCheckbox'
 import { numberFormat } from '../../utils/common'
 
+
 const useStyles = makeStyles((theme) => ({
+    sticky: {
+        position: "sticky",
+        right: 0,
+        zIndex: 2,
+        background: "white",
+        boxShadow: "5px 2px 5px grey",
+    },
     root: {
         '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
             borderColor: colors.borderInput
@@ -255,6 +263,7 @@ TablePaginationActions.propTypes = {
 export default function TableCustom(props: any) {
     const { t } = useTranslation()
     const classes = useStyles()
+
     const rowCount = props.rowCount || 0
     const page = props.page || 1
     const pageLimit = props.pageLimit
@@ -325,7 +334,7 @@ export default function TableCustom(props: any) {
                                         align={headCell.align ? headCell.align : headCell.id === 'updatedBy' || headCell.id === 'action' || headCell.id === 'status' || headCell.id === 'no' || false ? 'center' : headCell.id === 'price' ? 'right' : 'left'}
                                         padding={headCell.disablePadding ? 'none' : 'none'}
                                         sortDirection={sortBy === headCell.id ? sortType.toLowerCase() : false}
-                                        className={headCell?.class}
+                                        className={headCell?.class ? classes.sticky : ''}
                                         sx={{ width: headCell.width ? headCell.width : 'auto' }}
                                         colSpan={headCell.colSpan || 1}
                                     >

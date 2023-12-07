@@ -29,6 +29,23 @@ import download from './icons/download.svg'
 import arrowTopBottom from './icons/arrow-top-and-bottom.svg'
 import addForm from './icons/add-form.svg'
 
+
+// alert
+import one from './alert/one.svg'
+import two from './alert/two.svg'
+import three from './alert/three.svg'
+import four from './alert/four.svg'
+import five from './alert/five.svg'
+import six from './alert/six.svg'
+import seven from './alert/seven.svg'
+import eight from './alert/eight.svg'
+import nine from './alert/nine.svg'
+import ten from './alert/ten.svg'
+import eleven from './alert/eleven.svg'
+import twelve from './alert/twelve.svg'
+import thirteen from './alert/thirteen.svg'
+import errors from './alert/errors.svg'
+
 export const RouteImage = {
     bg_login: loginBackground,
 
@@ -50,7 +67,7 @@ export const RouteImage = {
     download: download,
     arrowTopBottom: arrowTopBottom,
     addForm: addForm,
-    list:list
+    list: list
 
 
 }
@@ -60,6 +77,23 @@ export const navbarRouteImage = {
     projectInformation: projectInformation,
     projectStatus: projectStatus,
     report: report,
-    usageStatistics:usageStatistics,
-    setting:setting
+    usageStatistics: usageStatistics,
+    setting: setting
+}
+
+export const alertImage = {
+    one,
+    two,
+    three,
+    four,
+    five,
+    six,
+    seven,
+    eight,
+    nine,
+    ten,
+    eleven,
+    twelve,
+    thirteen,
+    errors
 }

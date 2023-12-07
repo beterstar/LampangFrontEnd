@@ -1,5 +1,5 @@
 import { Dropdown } from 'react-bootstrap'
-import { TableCell, TableRow } from '@material-ui/core'
+import { TableCell, TableRow, makeStyles } from '@material-ui/core'
 import { faCircle, faEdit, faEllipsisH, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { dateTimeToView } from '../../utils/date.utils'
@@ -41,6 +41,16 @@ export const DropdownItem = styled(Dropdown.Item)(({ theme }) => ({
     }
 }))
 
+const useStyles = makeStyles((theme) => ({
+    sticky: {
+      position: "sticky",
+      right: 0,
+      zIndex: 2,
+      background: "white",
+      boxShadow: "5px 2px 5px grey",
+    }
+  }))
+
 type TableRowCommonProps = {
     key: string
     id: string
@@ -66,6 +76,7 @@ type TableRowCommonProps = {
 
 export default function TableRowCommon(props: TableRowCommonProps) {
     const { t } = useTranslation()
+    const classes = useStyles();
 
     return (
         <TableRowCustom key={props.key} className={`${props.rowSelect ? 'MuiTableRow-root-active' : ''} ${props.rowLink ? 'row-link' : ''} ${props.classes}`} style={{ height: 'auto' }} >
@@ -175,7 +186,7 @@ export default function TableRowCommon(props: TableRowCommonProps) {
                         </TableCell>
                     )) ||
                     (column.option === 'COMPONENT' && (
-                        <TableCell className={`${column.class}`} align={column.align || 'left'} style={{ ...column.style, width: column?.width || 160, textDecoration: 'none' }}>
+                        <TableCell className={`${column.class ? classes.sticky : ''}`} align={column.align || 'left'} style={{ ...column.style, width: column?.width || 160, textDecoration: 'none' }}>
                             {column.component}
                         </TableCell>
                     )) ||

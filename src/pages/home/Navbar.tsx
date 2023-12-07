@@ -120,9 +120,9 @@ const Navbar: React.FC = () => {
                                         initial={{ y: -100, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
                                         transition={{ stiffness: 200, delay: .1 }}
-                                        className='h-auto w-full cursor-pointer hover:bg-sub_primary' key={subMenu.subMenuId}>
+                                        className={`${!active && 'hidden'} h-auto w-full cursor-pointer hover:bg-sub_primary`} key={subMenu.subMenuId}>
                                         <li className='pl-12 py-3 pt-3'>
-                                            <Typography className='text-primary' variant='body1'>
+                                            <Typography className='text-primary whitespace-pre' variant='body1'>
                                                 {subMenu.subMenuName}
                                             </Typography>
                                         </li>
@@ -136,7 +136,7 @@ const Navbar: React.FC = () => {
                                             transition={{ stiffness: 200, delay: .1 }}
                                             className='h-auto w-full cursor-pointer hover:bg-sub_primary'
                                             key={thirdMenu.subThirdMenuId}>
-                                            <li className='pl-16 py-3 pt-3 flex items-center justify-start gap-x-2'>
+                                            <li className={`${!active && 'hidden'} pl-16 py-3 pt-3 flex items-center justify-start gap-x-2`}>
                                                 <Typography className='text-primary' variant='body1'>
                                                     <img style={{ maxWidth: "24px" }} src={RouteImage.list} alt="list" />
                                                 </Typography>

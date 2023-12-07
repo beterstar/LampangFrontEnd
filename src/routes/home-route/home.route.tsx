@@ -3,6 +3,7 @@ import ProjectInformation from "../../pages/home/information/ProjectInformation"
 import CreateProjectInformation from "../../pages/home/information/CreateProjectInformation";
 import TrackProjectStatus from "../../pages/home/track-project-status/TrackProjectStatus";
 import UsageStatistics from "../../pages/home/statistics-usage/UsageStatistics";
+import ViewTrackProjectStatus from "../../pages/home/track-project-status/view-project/ViewTrackProjectStatus";
 
 interface routes {
     key: string;
@@ -42,6 +43,13 @@ export const homeRoute: routes[] = [
         labelNameEn: "Track project status",
         labelNameTh: "ติดตามสถานะโครงการ",
         component: TrackProjectStatus
+    },
+    {
+        key: "HOME_PROJECT_TRACK_PROJECT_STATUS",
+        path: "/auth/project-status/view",
+        labelNameEn: "Track project status",
+        labelNameTh: "ติดตามสถานะโครงการ",
+        component: ViewTrackProjectStatus
     },
     {
         key: "HOME_PROJECT_TRACK_PROJECT_STATUS",

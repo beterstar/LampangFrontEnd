@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 
 // TYPE
-import { createProjectProps, typeDisbursement, TabPanelProps, projectProgress, Project } from './type/project.type';
+import { typeDisbursement, TabPanelProps, projectProgress, Project } from './type/project.type';
 
 // COMPONENT
 import * as styled from '../style/main.style'
@@ -109,7 +109,7 @@ const CreateProjectInformation = (props: Props) => {
     const dispatch = useDispatch();
     const formState = useSelector((state: any) => state.project)
 
-    console.log(formState)
+    // console.log(formState)
 
     // STATE 👇
     const [isDisbursement, setIsDisbursement] = useState<boolean>(false);
@@ -398,7 +398,6 @@ const CreateProjectInformation = (props: Props) => {
                                 </div>
                             </article>
 
-                            {/* 👇 รอคุย */}
                             <article className='grid grid-cols-12 gap-2'>
                                 <div className='col-span-12 lg:col-span-3'>
                                     <FilterSelect
@@ -594,7 +593,6 @@ const CreateProjectInformation = (props: Props) => {
                                                                     </div>
                                                                     <div className='col-span-12 lg:col-span-2'>
                                                                         <InputTextField
-
                                                                             heading={t("งบประมาณรวม (บาท)")}
                                                                         />
                                                                     </div>

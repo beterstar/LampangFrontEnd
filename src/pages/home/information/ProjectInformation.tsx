@@ -37,7 +37,6 @@ let mockData = [
 
 const ProjectInformation: React.FC = () => {
     const { t } = useTranslation();
-    let lang = 'th'
 
     const navigate: NavigateFunction = useNavigate();
 
@@ -63,7 +62,7 @@ const ProjectInformation: React.FC = () => {
         },
         {
             id: "PROJECT", disablePadding: false, align: "center", label:
-                <div className='flex justify-center items-center gap-1'>
+                <div className='min-w-[20rem] flex justify-center items-center gap-1'>
                     <Typography variant='h6'>
                         {t("โครงการ")}
                     </Typography>
@@ -72,7 +71,7 @@ const ProjectInformation: React.FC = () => {
         },
         {
             id: "BUDGET", disablePadding: false, align: "left", label:
-                <div className='flex justify-center items-center gap-1'>
+                <div className='min-w-[10rem] flex justify-center items-center gap-1'>
                     <Typography variant='h6'>
                         {t("งบประมาณ")}
                     </Typography>
@@ -81,11 +80,14 @@ const ProjectInformation: React.FC = () => {
 
         },
         {
-            id: "BUDGET",
-            disablePadding: false,
-            align: "left", label: <Typography variant='h6'>{t("สถานะ")}</Typography>
+            id: "STATUS", class: true, disablePadding: false, align: "left", label:
+                <div className='flex justify-left pl-4 items-center gap-1'>
+                    <Typography variant='h6'>
+                        {t("สถานะ")}
+                    </Typography>
+                    <span><img src={RouteImage.arrowTopBottom} alt="icon" /></span>
+                </div>
         },
-        { id: "BUDGET", disablePadding: false, align: "left", label: "" },
     ];
 
     const renderData = (objData: any, no: any) => {
@@ -111,19 +113,21 @@ const ProjectInformation: React.FC = () => {
                 },
                 {
                     option: "COMPONENT",
-                    align: "left",
-                    component:
-                        <div className='relative right-0 top-0'>
+                    align: "center",
+                    class: true,
+                    style:{
+                        boxShadow:"inset -4px 0px 16px 0px rgba(0,0,0,0.10)",
+                        zIndex:999999
+                    },
+                    component: (
+                        <div
+                            className='text-left min-w-[312px] h-full w-full'>
                             <Typography variant='body1'>
                                 {status}
                             </Typography>
                         </div>
-                },
-                {
-                    option: "COMPONENT",
-                    align: "right",
-                    width: 50,
-                    component: <DeleteOutlineIcon />
+
+                    ),
                 },
             ],
         };
@@ -134,7 +138,7 @@ const ProjectInformation: React.FC = () => {
 
     return (
         <styled.ContainerHome>
-            <Navbar />  
+            <Navbar />
             <styled.MainContainer>
                 <Header />
                 <styled.Content>
@@ -298,7 +302,8 @@ const ProjectInformation: React.FC = () => {
                             </span>
                         </article>
                     </section>
-                    <section className='w-full mt-3'>
+
+                    <section className='w-full mt-3' >
                         <TableCustom
                             page={page}
                             pageLimit={pageLimit}
@@ -312,8 +317,6 @@ const ProjectInformation: React.FC = () => {
                             onSort={() => { }}
                             setPageLimit={(value: number) => setPageLimit(value)}
                             setPage={(value: number) => setPage(value)}
-                            tableMinWidth={1024}
-                        // tableFixedWidth
                         />
                     </section>
                 </styled.Content>
