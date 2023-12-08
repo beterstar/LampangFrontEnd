@@ -4,6 +4,7 @@ import { useNavigate, useLocation, NavigateFunction } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import CloseIcon from '@mui/icons-material/Close';
 
 // COMPONENT 👇
 import { colors } from '../../constants/colors'
@@ -11,14 +12,27 @@ import { RouteImage } from '../../assets/routeImage'
 import { setFalse } from '../../store/slice/navbarActive/navbarSlice';
 import { Menu, menuProps, subMenuProps, thirdMenuProps } from '../../utils/Menu';
 
-const LogoBox = styled(Box)({
+const LogoBox = styled(Box)(({ theme }) => ({
     width: "100%",
     height: "80px",
     borderBottom: `1px solid ${colors.lampang_primary}`,
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
-})
+    alignItems: "center",
+    [theme.breakpoints.down('mobileXl')]: {
+        justifyContent: 'flex-end',
+        padding: "0 1rem",
+        'div': {
+            'img': {
+                display: "none"
+            }
+        },
+        'span': {
+            display: "block"
+        }
+    }
+}))
+
 const MenuBox = styled('ul')({
     width: "100%"
 })
@@ -61,10 +75,15 @@ const Navbar: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ stiffness: 100, ease: "backInOut" }}
-            className={`min-h-screen z-30 bg-white ${active ? 'w-[224px]' : 'w-[4.3rem]'} duration-200 shadow-md`}
+            className={`min-h-screen z-30 bg-white ${active ? 'w-[224px]' : 'w-[4.3rem]'} ${!active && 'hidden'} duration-200 shadow-md`}
         >
             <LogoBox>
-                <img src={RouteImage.login_logo} width={56} height={56} alt="logo" />
+                <div>
+                    <img src={RouteImage.login_logo} width={56} height={56} alt="logo" />
+                </div>
+                <span className='block md:hidden'>
+                    <CloseIcon className='cursor-pointer' onClick={() => dispatch(setFalse())} />
+                </span>
             </LogoBox>
             <MenuBox>
                 {Menu.map((list: menuProps, index: number) => (

@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
-import Header from '../Header'
-import * as styles from '../style/main.style'
-import Navbar from '../Navbar'
 import { useTranslation } from 'react-i18next'
 import { MenuItem, Typography } from '@mui/material'
 import { styled } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { RouteImage } from '../../../assets/routeImage'
+
+// COMPONENT
+import { ButtonOutlined } from '../../../component/mui-custom/MuiCustom'
+import Header from '../Header'
+import Navbar from '../Navbar'
+import * as styles from '../style/main.style'
 import InputTextField from '../../../component/input/inputTextField'
 import FilterSelect from '../../../component/select/filterSelect'
-import { RouteImage } from '../../../assets/routeImage'
-import { ButtonOutlined } from '../../../component/mui-custom/MuiCustom'
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import TableRowCommon from '../../../component/table/TableRowCommon'
 import TableCustom from '../../../component/table/tableCustom'
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import { useNavigate } from 'react-router-dom'
+import RangeCustom from '../../../component/ranges/RangeCustom'
 
 const FilterBox = styled('section')({
     width: "100%",
@@ -24,13 +27,25 @@ let mockData = [
         id: 1,
         project: "โครงการปรับปรุงสวนสาธารณะประตูเวียง",
         budget: 20000,
-        status: "บันทึกร่าง"
+        disbursement_budget: 20000,
+        subcategories: "-",
+        work_period: "2 งวด",
+        date: "11/10/2566 - 30/11/2567",
+        agency: "เทศบาลนครลำปาง",
+        percentage: 20,
+        percentageName: "การออกแบบ/TOR"
     },
     {
         id: 2,
         project: "โครงการปรับปรุงสวนสาธารณะเขลางค์นคร",
         budget: 3000,
-        status: "บันทึกร่าง"
+        disbursement_budget: 10000,
+        subcategories: "-",
+        work_period: "3 งวด",
+        date: "11/10/2566 - 30/11/2567",
+        agency: "เทศบาลนครลำปาง",
+        percentage: 45,
+        percentageName: "การออกแบบ/TOR"
     },
 ]
 
@@ -67,7 +82,7 @@ const TrackProjectStatus: React.FC = () => {
         },
         {
             id: "PROJECT", disablePadding: false, align: "center", label:
-                <div className='flex justify-center items-center gap-1'>
+                <div className='min-w-[587px] flex justify-center items-center gap-1'>
                     <Typography variant='h6'>
                         {t("โครงการ")}
                     </Typography>
@@ -76,7 +91,7 @@ const TrackProjectStatus: React.FC = () => {
         },
         {
             id: "BUDGET", disablePadding: false, align: "left", label:
-                <div className='flex justify-center items-center gap-1'>
+                <div className='min-w-[135px] flex justify-center items-center gap-1'>
                     <Typography variant='h6'>
                         {t("งบประมาณ")}
                     </Typography>
@@ -85,16 +100,69 @@ const TrackProjectStatus: React.FC = () => {
 
         },
         {
-            id: "BUDGET",
-            disablePadding: false,
-            align: "left", label: <Typography variant='h6'>{t("สถานะ")}</Typography>
+            id: "DISBURSEMENT_BUDGET", disablePadding: false, align: "left", label:
+                <div className='min-w-[130px] flex justify-center items-center gap-1'>
+                    <Typography variant='h6'>
+                        {t("งบเบิกจ่าย")}
+                    </Typography>
+                    <span><img src={RouteImage.arrowTopBottom} alt="icon" /></span>
+                </div>
+
         },
-        { id: "BUDGET", disablePadding: false, align: "left", label: "" },
+        {
+            id: "SUBCATEGORIES", disablePadding: false, align: "left", label:
+                <div className='min-w-[130px] flex justify-center items-center gap-1'>
+                    <Typography variant='h6'>
+                        {t("หมวดย่อย")}
+                    </Typography>
+                    <span><img src={RouteImage.arrowTopBottom} alt="icon" /></span>
+                </div>
+
+        },
+        {
+            id: "WORK_PERIOD", disablePadding: false, align: "left", label:
+                <div className='min-w-[133px] flex justify-center items-center gap-1'>
+                    <Typography variant='h6'>
+                        {t("งวดงาน")}
+                    </Typography>
+                    <span><img src={RouteImage.arrowTopBottom} alt="icon" /></span>
+                </div>
+
+        },
+        {
+            id: "DATE", disablePadding: false, align: "left", label:
+                <div className='min-w-[200px] flex justify-center items-center gap-1'>
+                    <Typography variant='h6'>
+                        {t("ระยะเวลาโครงการ")}
+                    </Typography>
+                    <span><img src={RouteImage.arrowTopBottom} alt="icon" /></span>
+                </div>
+
+        },
+        {
+            id: "AGENCY", disablePadding: false, align: "left", label:
+                <div className='min-w-[220px] flex justify-center items-center gap-1'>
+                    <Typography variant='h6'>
+                        {t("หน่วยงาน")}
+                    </Typography>
+                    <span><img src={RouteImage.arrowTopBottom} alt="icon" /></span>
+                </div>
+
+        },
+        {
+            id: "STATUS", class: true, disablePadding: true, align: "left", label:
+                <div className='min-w-[100px] md:min-w-[312px] flex justify-left pl-4 items-center gap-1'>
+                    <Typography variant='h6'>
+                        {t("สถานะ")}
+                    </Typography>
+                    <span><img src={RouteImage.arrowTopBottom} alt="icon" /></span>
+                </div>
+        },
     ];
 
     const renderData = (objData: any, no: any) => {
         no = page * pageLimit - pageLimit + no + 1
-        const { id, project, budget, status } =
+        const { id, project, budget, disbursement_budget, subcategories, work_period, date, agency, percentage, percentageName } =
             objData;
 
         const objRenderData = {
@@ -102,36 +170,55 @@ const TrackProjectStatus: React.FC = () => {
             id: no,
             obj: objData,
             columns: [
-                { option: "TEXT", align: "left", label: id },
                 {
-                    option: "TEXT",
-                    align: "left",
-                    label: project,
+                    option: "TEXT", align: "left", label: id
                 },
                 {
-                    option: "PRICE",
+                    option: "TEXT", align: "left", label: project,
+                },
+                {
+                    option: "PRICE", align: "center", label: budget,
+                },
+                {
+                    option: "PRICE", align: "center", label: disbursement_budget,
+                },
+                {
+                    option: "TEXT", align: "center", label: subcategories,
+                },
+                {
+                    option: "TEXT", align: "center", label: work_period,
+                },
+                {
+                    option: "TEXT", align: "center", label: date,
+                },
+                {
+                    option: "TEXT", align: "center", label: agency,
+                },
+                {
+                    option: "COMPONENT",
                     align: "center",
-                    label: budget,
-                },
-                {
-                    option: "COMPONENT",
-                    align: "left",
-                    component:
-                        <div className='relative right-0 top-0'>
-                            <Typography variant='body1'>
-                                {status}
-                            </Typography>
-                        </div>
-                },
-                {
-                    option: "COMPONENT",
-                    align: "right",
-                    width: 50,
-                    component:
-                        <VisibilityOutlinedIcon
-                            onClick={() => navigate('/auth/project-status/view', { state: id })}
-                            className='cursor-pointer'
-                        />
+                    class: true,
+                    component: (
+                        <div className='w-full min-w-[100px] md:min-w-[312px] flex flex-col md:flex-row gap-y-3'>
+                            <span className='text-base_secondary flex items-center flex-col mt-4 w-full'>
+                                <RangeCustom num={percentage} />
+                                <span>
+                                    <Typography variant='subtitle1'>
+                                        {percentageName}
+                                    </Typography>
+                                </span>
+                            </span>
+                            <span className='flex items-center gap-x-3'>
+                                <RemoveRedEyeOutlinedIcon onClick={() => navigate('/auth/project-status/view', { state: id })} className='text-base_disable cursor-pointer' />
+                                <button>
+                                    <img src={RouteImage.editIcon} style={{ maxWidth: 24 }} alt='icons' />
+                                </button>
+                                <button>
+                                    <img src={RouteImage.delete} style={{ maxWidth: 24 }} alt='icons' />
+                                </button>
+                            </span>
+                        </div >
+                    ),
                 },
             ],
         };
@@ -427,8 +514,8 @@ const TrackProjectStatus: React.FC = () => {
                     </FilterBox>
 
                     {/* TABLE */}
-                    <FilterBox className='w-full mt-8'>
-                        <TableCustom
+                    <FilterBox className='mt-8'>
+                    <TableCustom
                             page={page}
                             pageLimit={pageLimit}
                             sortBy=""

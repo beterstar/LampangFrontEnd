@@ -1,26 +1,28 @@
-import { Box, styled } from "@mui/material";
+import { Container, Box, styled } from "@mui/material";
 
 
 export const ContainerHome = styled(Box)({
-    width: "100%",
+    width: "auto",
     height: "auto",
     minHeight: "100vh",
-    display: 'flex'
+    display: 'flex',
+    overflow:"hidden"
 })
 
 export const MainContainer = styled('div')({
     width: '100%',
-    maxWidth:"100vw",
+    maxWidth: '100vw',
+    overflow:"auto",
     display: 'flex',
-    flex: "1 1 0",
-    flexDirection: "column"
-})
-
+    flex: '1 1 0',
+    flexDirection: 'column',
+});
 export const Content = styled('div')(({ theme }) => ({
     flex: "1",
+    // width:"100%",
     height: "100%",
     padding: "44px 48px",
-    [theme.breakpoints.down('mobileXl')]:{
-        padding:"22px 24px"
+    [theme.breakpoints.down('mobileXl')]: {
+        padding: "22px 24px"
     }
 }))

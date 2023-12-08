@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import { MenuItem, Typography } from '@mui/material'
+import { Button, MenuItem, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 
 
 // COMPONENT
 import SearchIcon from '@mui/icons-material/Search';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import * as styled from '../style/main.style'
 import Header from '../Header'
 import Navbar from '../Navbar'
@@ -25,12 +26,40 @@ let mockData = [
         id: 1,
         project: "โครงการปรับปรุงสวนสาธารณะประตูเวียง",
         budget: 20000,
+        work_period: "1 งวด",
+        person: "ปิยาพร รัตนาอาทิตย์",
         status: "บันทึกร่าง"
     },
     {
         id: 2,
         project: "โครงการปรับปรุงสวนสาธารณะเขลางค์นคร",
-        budget: 3000,
+        budget: 30200,
+        work_period: "2 งวด",
+        person: "ปิยาพร รัตนาอาทิตย์",
+        status: "บันทึกร่าง"
+    },
+    {
+        id: 3,
+        project: "โครงการปรับปรุงสวนสาธารณะเขลางค์นคร",
+        budget: 30010,
+        work_period: "1 งวด",
+        person: "ปิยาพร รัตนาอาทิตย์",
+        status: "บันทึกร่าง"
+    },
+    {
+        id: 4,
+        project: "โครงการปรับปรุงสวนสาธารณะเขลางค์นคร",
+        budget: 30200,
+        work_period: "3 งวด",
+        person: "ปิยาพร รัตนาอาทิตย์",
+        status: "บันทึกร่าง"
+    },
+    {
+        id: 5,
+        project: "โครงการปรับปรุงสวนสาธารณะเขลางค์นคร",
+        budget: 1000,
+        work_period: "1 งวด",
+        person: "ปิยาพร รัตนาอาทิตย์",
         status: "บันทึกร่าง"
     },
 ]
@@ -62,7 +91,7 @@ const ProjectInformation: React.FC = () => {
         },
         {
             id: "PROJECT", disablePadding: false, align: "center", label:
-                <div className='min-w-[20rem] flex justify-center items-center gap-1'>
+                <div className='min-w-[587px] flex justify-center items-center gap-1'>
                     <Typography variant='h6'>
                         {t("โครงการ")}
                     </Typography>
@@ -71,9 +100,29 @@ const ProjectInformation: React.FC = () => {
         },
         {
             id: "BUDGET", disablePadding: false, align: "left", label:
-                <div className='min-w-[10rem] flex justify-center items-center gap-1'>
+                <div className='min-w-[135px] flex justify-center items-center gap-1'>
                     <Typography variant='h6'>
                         {t("งบประมาณ")}
+                    </Typography>
+                    <span><img src={RouteImage.arrowTopBottom} alt="icon" /></span>
+                </div>
+
+        },
+        {
+            id: "WORK_PERIOD", disablePadding: false, align: "left", label:
+                <div className='min-w-[113px] flex justify-center items-center gap-1'>
+                    <Typography variant='h6'>
+                        {t("งวดงาน")}
+                    </Typography>
+                    <span><img src={RouteImage.arrowTopBottom} alt="icon" /></span>
+                </div>
+
+        },
+        {
+            id: "RESPONSIBLE_PERSON", disablePadding: false, align: "left", label:
+                <div className='min-w-[195px] flex justify-center items-center gap-1'>
+                    <Typography variant='h6'>
+                        {t("ผู้รับผิดชอบโครงการ")}
                     </Typography>
                     <span><img src={RouteImage.arrowTopBottom} alt="icon" /></span>
                 </div>
@@ -92,7 +141,7 @@ const ProjectInformation: React.FC = () => {
 
     const renderData = (objData: any, no: any) => {
         no = page * pageLimit - pageLimit + no + 1
-        const { id, project, budget, status } =
+        const { id, project, budget, status, work_period, person } =
             objData;
 
         const objRenderData = {
@@ -112,21 +161,37 @@ const ProjectInformation: React.FC = () => {
                     label: budget,
                 },
                 {
+                    option: "TEXT",
+                    align: "center",
+                    disablePadding: true,
+                    label: work_period
+                },
+                {
+                    option: "TEXT",
+                    align: "center",
+                    label: person,
+                },
+                {
                     option: "COMPONENT",
                     align: "center",
                     class: true,
-                    style:{
-                        boxShadow:"inset -4px 0px 16px 0px rgba(0,0,0,0.10)",
-                        zIndex:999999
-                    },
                     component: (
-                        <div
-                            className='text-left min-w-[312px] h-full w-full'>
-                            <Typography variant='body1'>
-                                {status}
-                            </Typography>
-                        </div>
-
+                        <div className='text-left min-w-[312px] h-full w-full flex'>
+                            <li className='text-base_secondary w-full list-item'>
+                                <Typography className='inline-block' variant='body1'>
+                                    {status}
+                                </Typography>
+                            </li>
+                            <span className='flex gap-x-3'>
+                                <RemoveRedEyeOutlinedIcon className='text-base_disable cursor-pointer' />
+                                <button>
+                                    <img src={RouteImage.editIcon} style={{ maxWidth: 24 }} alt='icons' />
+                                </button>
+                                <button>
+                                    <img src={RouteImage.delete} style={{ maxWidth: 24 }} alt='icons' />
+                                </button>
+                            </span>
+                        </div >
                     ),
                 },
             ],
@@ -305,6 +370,7 @@ const ProjectInformation: React.FC = () => {
 
                     <section className='w-full mt-3' >
                         <TableCustom
+                            customScroll
                             page={page}
                             pageLimit={pageLimit}
                             sortBy=""

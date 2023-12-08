@@ -138,6 +138,7 @@ type InputProps = {
   multiline?: boolean;
   maxRows?: any;
   headingNormal?: boolean;
+  disableColor?: string;
 };
 
 export default function InputTextField(props: InputProps) {
@@ -161,7 +162,7 @@ export default function InputTextField(props: InputProps) {
         key={`text-field-${props.key}`}
         sx={{
           ".MuiOutlinedInput-root": {
-            backgroundColor: props.disabled ? colors.black_12 : "",
+            backgroundColor: props.disabled ? props.disableColor ? props.disableColor : colors.black_12 : "",
           },
           ...props.style,
         }}

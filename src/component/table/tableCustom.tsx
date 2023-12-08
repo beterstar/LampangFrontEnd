@@ -43,6 +43,13 @@ const useStyles = makeStyles((theme) => ({
         zIndex: 2,
         background: "white",
         boxShadow: "5px 2px 5px grey",
+        filter: "drop-shadow(-4px 10px 16px rgba(0,0,0,0.10))",
+        [theme.breakpoints.down('lg')]: {
+            borderTop: `1px solid ${colors.themeMainColor} !important`,
+        },
+        [theme.breakpoints.up('lg')]: {
+            borderTop: `none !important`,
+        },
     },
     root: {
         '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {

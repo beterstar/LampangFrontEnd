@@ -28,6 +28,8 @@ import setting from './nav/setting.svg'
 import download from './icons/download.svg'
 import arrowTopBottom from './icons/arrow-top-and-bottom.svg'
 import addForm from './icons/add-form.svg'
+import editIcon from './icons/edit.svg'
+import deleted from './icons/delete.svg'
 
 
 // alert
@@ -67,7 +69,9 @@ export const RouteImage = {
     download: download,
     arrowTopBottom: arrowTopBottom,
     addForm: addForm,
-    list: list
+    list: list,
+    editIcon:editIcon,
+    delete:deleted
 
 
 }

@@ -52,7 +52,7 @@ export const Menu: menuProps[] = [
         path: "/auth/report",
         subMenu: [
             {
-                subMenuId: 1,
+                subMenuId: 5,
                 subMenuName: "ทดสอบ",
                 path: "/",
                 subThirdMenu: []
@@ -60,82 +60,82 @@ export const Menu: menuProps[] = [
         ]
     },
     {
-        id: 5,
+        id: 15,
         menuName: "สถิติการใช้งาน",
         icon: navbarRouteImage.usageStatistics,
         path: "/auth/usage-statistics",
         subMenu: []
     },
     {
-        id: 6,
+        id: 16,
         menuName: "ตั้งค่า",
         icon: navbarRouteImage.setting,
         path: "/auth/setting",
         subMenu: [
             {
-                subMenuId: 1,
+                subMenuId: 17,
                 subMenuName: "ปีงบประมาณ",
                 path: "/",
                 subThirdMenu: [
                     {
-                        subThirdMenuId: 1,
+                        subThirdMenuId: 18,
                         subThirdMenuName: "ยุทธศาสตร์",
                         path: "/"
                     },
                     {
-                        subThirdMenuId: 2,
+                        subThirdMenuId: 19,
                         subThirdMenuName: "ประเภทภารกิจ",
                         path: "/"
                     },
                     {
-                        subThirdMenuId: 3,
+                        subThirdMenuId: 20,
                         subThirdMenuName: "ความคืบหน้าโครงการ",
                         path: "/"
                     },
                     {
-                        subThirdMenuId: 4,
+                        subThirdMenuId: 21,
                         subThirdMenuName: "การแจ้งเตือน",
                         path: "/"
                     },
                     {
-                        subThirdMenuId: 5,
+                        subThirdMenuId: 22,
                         subThirdMenuName: "ประเภทโครงการ",
                         path: "/"
                     },
                 ]
             },
             {
-                subMenuId: 2,
+                subMenuId: 23,
                 subMenuName: "แผนงาน",
                 path: "/",
                 subThirdMenu: []
             },
             {
-                subMenuId: 3,
+                subMenuId: 24,
                 subMenuName: "แหล่งที่มางบประมาณ",
                 path: "/",
                 subThirdMenu: []
             },
             {
-                subMenuId: 4,
+                subMenuId: 25,
                 subMenuName: "หน่วยงาน",
                 path: "/",
                 subThirdMenu: []
             },
             {
-                subMenuId: 5,
+                subMenuId: 26,
                 subMenuName: "ผู้ใช้งานระบบ",
                 path: "/",
                 subThirdMenu: []
             },
             {
-                subMenuId: 6,
+                subMenuId: 27,
                 subMenuName: "กำหนดสิทธิ์",
                 path: "/",
                 subThirdMenu: []
             },
             {
-                subMenuId: 7,
+                subMenuId: 28,
                 subMenuName: "ปรับแต่ง",
                 path: "/",
                 subThirdMenu: []
