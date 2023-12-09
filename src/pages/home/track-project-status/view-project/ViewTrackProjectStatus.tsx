@@ -3,14 +3,12 @@ import { Typography } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 import { useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import Dropzone, { useDropzone } from 'react-dropzone'
-import './dropzone.css'
 
 
 // COMPONENT
 import { colors } from '../../../../constants/colors'
 import { ButtonContained, ButtonOutlined } from '../../../../component/mui-custom/MuiCustom'
-import { Box, MenuItem, Tabs } from '@mui/material'
+import { Box, Button, MenuItem, Tabs } from '@mui/material'
 import { CustomTab, CustomTabPanel } from '../../../../component/Tabs/TabsCustom'
 import { RouteImage } from '../../../../assets/routeImage'
 import * as styles from '../../style/main.style'
@@ -23,6 +21,10 @@ import InputTextField from '../../../../component/input/inputTextField'
 import LabelCustom from '../../../../component/label/LabelCustom'
 import Dropdown from '../../../../component/dropdown/Dropdown'
 import { numberFormat } from '../../../../utils/common'
+import FileDragAndDrop from '../../../../component/dragAndDrop/dragAndDrop'
+import { notification } from '../../../../constants/notificationMessage'
+import { swalActive, swalError } from '../../../../component/notification/swal'
+import { SectionStatusProject } from './ViewTrackProjectStatus.style'
 
 function projectTabsProps(index: number) {
     return {
@@ -35,6 +37,74 @@ type Props = {}
 
 const ViewTrackProjectStatus = (props: Props) => {
     const { t } = useTranslation();
+
+    type fileTypes = {
+        file: File | null,
+    }
+    type operation = {
+        statusId: number;
+        statusName: string;
+        createDate: string;
+        date: string;
+        note: string;
+        file: fileTypes[]
+    }
+    const [operationStatus, setOperationStatus] = useState<operation[]>([
+        {
+            statusId: 2,
+            statusName: "หน่วยงานขออนุมัติดำเนินโครงการ",
+            createDate: "2023-02-20",
+            date: "2021-02-21",
+            note: "-",
+            file: [
+                {
+                    file: null
+                }
+            ]
+        },
+        {
+            statusId: 3,
+            statusName: "ขั้นตอนพัสดุ",
+            createDate: "2023-02-20",
+            date: "2021-02-21",
+            note: "-",
+            file: [
+                {
+                    file: null
+                }
+            ]
+        },
+        {
+            statusId: 4,
+            statusName: "จัดทำจัดชื้อจัดจ้าง",
+            createDate: "2023-02-20",
+            date: "2021-02-21",
+            note: "-",
+            file: [
+                {
+                    file: null
+                },
+                {
+                    file: null
+                },
+            ]
+        },
+        {
+            statusId: 5,
+            statusName: "ดำเนินงานโครงการ",
+            createDate: "2023-02-20",
+            date: "2021-02-21",
+            note: "-",
+            file: [
+                {
+                    file: null
+                }
+            ]
+        },
+
+    ])
+
+
     const formState = {
         agencyId: 0,
         fiscalYear: 0,
@@ -82,33 +152,44 @@ const ViewTrackProjectStatus = (props: Props) => {
                 ],
                 totalBudget: 20000000,
                 totalDisbursement: 10000000,
-                outstandingBudget: 200000
+                outstandingBudget: 200000,
+
+
+                // สถานะการดำเนินงาน
+                status: [
+                    {
+                        ...operationStatus
+                    }
+                ]
             },
         ]
     }
 
-    type operation = {
-        statusId: number;
-        createDate: string;
-        date: string;
-        note: string;
-        file: File | null;
-    }
-    const operationStatus: operation[] = [
-        {
-            statusId: 2,
-            createDate: "2023-02-20",
-            date: "2021-02-21",
-            note: "-",
-            file: null
-        }
-    ]
-
+    console.log(formState)
     const location = useLocation();
-    const onDrop = useCallback((acceptedFiles: any) => {
+
+    const onDrop = useCallback((acceptedFiles: File) => {
+        // setOperationStatus((prev: operation[]) => {
+        //     return prev.map((list) => ({
+        //         ...list,
+        //         file: list.file.map((data) => {
+        //             return {
+        //                 ...data,
+        //                 file: acceptedFiles
+        //             }
+        //         })
+        //     }))
+        // })
         console.log(acceptedFiles)
     }, [])
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
+    const handleOnSizeError = (errorText: string) => {
+        console.log(errorText)
+        swalError(errorText)
+    }
+    const handleOnTypeError = (errorText: string) => {
+        swalError(errorText)
+    }
 
 
     const [projectTabs, setProjectTabs] = useState<number>(0);
@@ -734,10 +815,10 @@ const ViewTrackProjectStatus = (props: Props) => {
                                                     {t("สถานะการดำเนินงาน")}
                                                 </Typography>
                                             </section>
-                                            {operationStatus.map((list) => (
-                                                <section className='w-full flex flex-col gap-3 mt-3 rounded-xl shadow-lg h-full min-h-[429px] p-3'>
+                                            {operationStatus.map((list: operation) => (
+                                                <SectionStatusProject>
                                                     <article className='w-full flex justify-between'>
-                                                        <span><Typography variant='h6'>{`${list.statusId}.หน่วยงานขออนุมัติดำเนินโครงการ`}</Typography></span>
+                                                        <span><Typography variant='h6'>{`${list.statusId}.${list.statusName}`}</Typography></span>
                                                         <span><Typography variant='subtitle1'>{`บันทึกเมือ ${list.createDate} เวลา 11.30.29 น.`}</Typography></span>
                                                     </article>
                                                     <article className='w-full max-w-[177px]'>
@@ -760,31 +841,42 @@ const ViewTrackProjectStatus = (props: Props) => {
                                                             value={list.note}
                                                         />
                                                     </article>
-                                                    <article className='w-full'>
+                                                    <article className='w-full flex flex-col gap-2'>
                                                         <LabelCustom
                                                             text='แนบไฟล์'
                                                         />
-                                                        <div
-                                                            className='w-full border-[4px] border-dotted border-[#C1C3C7] rounded-xl h-full min-h-[10rem] py-4 pl-6 pr-8'
-                                                            {...getRootProps()}>
-                                                            <input {...getInputProps()} />
-                                                            {
-                                                                isDragActive ?
-                                                                    <Box className='w-full border-2 rounded h-full p-3'>
-                                                                        วางไฟล์ของคุณไว้ที่นี่
-                                                                    </Box> :
-                                                                    <div className='flex flex-col'>
-                                                                        <Typography variant='subtitle2'>
-                                                                            {t("ลากหรือเลือกไฟล์เพื่ออัปโหลด")}
-                                                                        </Typography>
-                                                                        <Typography variant='subtitle1'>
-                                                                            {t("Word, Excel or PDF ขนาดไม่เกิน 10MB")}
-                                                                        </Typography>
-                                                                    </div>
-                                                            }
-                                                        </div>
+                                                        {list.file?.map((data, index: number) => (
+                                                            <div key={index}>
+                                                                <FileDragAndDrop
+                                                                    maxSize={2}
+                                                                    onTypeError={handleOnTypeError}
+                                                                    onSizeError={handleOnSizeError}
+                                                                    dropMessageStyle={{
+                                                                        backgroundColor: "#000"
+                                                                    }}
+                                                                    onUpload={onDrop}
+                                                                />
+                                                            </div>
+                                                        ))}
+                                                        <Box className="flex justify-end items-center">
+                                                            <ButtonOutlined
+                                                                startIcon={<img src={RouteImage.addButton} />}
+                                                                sx={{ width: "100%", maxWidth: "75px", color: colors.lampang_primary }}
+                                                            >
+                                                                {t("BUTTON.ADD")}
+                                                            </ButtonOutlined>
+                                                        </Box>
+                                                        <Box className="flex justify-end items-center">
+                                                            <Button
+                                                                endIcon={<img src={RouteImage.delete} />}
+                                                            >
+                                                                <Typography className='text-base_secondary'>
+                                                                    {notification.file.deleteStatus}
+                                                                </Typography>
+                                                            </Button>
+                                                        </Box>
                                                     </article>
-                                                </section>
+                                                </SectionStatusProject>
                                             ))}
                                         </CustomTabPanel>
                                     ))}

@@ -10,6 +10,7 @@ module.exports = {
       bg_secondary:"#F8F9FB",
       base_secondary:"#858C95",
       base_disable:"#525D6A",
+      base_border_upload:"#C1C3C7",
       secondary: "#FFC700",
       light: "#E5E5E7",
       white: "#ffffff",

@@ -27,6 +27,7 @@
     },
     "STATUS": {},
     "NAV": {},
+    "UPLOAD_FILE":"เลือกไฟล์",
     "UPLOAD_IMAGE": "อัปโหลดรูปภาพ",
     "PAGINATION": {
         "LIST": "รายการ",
