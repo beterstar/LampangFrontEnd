@@ -39,7 +39,8 @@ const ViewTrackProjectStatus = (props: Props) => {
     const { t } = useTranslation();
 
     type fileTypes = {
-        file: File | null,
+        fileId: number;
+        file: File | null;
     }
     type operation = {
         statusId: number;
@@ -58,6 +59,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             note: "-",
             file: [
                 {
+                    fileId: 1,
                     file: null
                 }
             ]
@@ -70,6 +72,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             note: "-",
             file: [
                 {
+                    fileId: 1,
                     file: null
                 }
             ]
@@ -82,11 +85,9 @@ const ViewTrackProjectStatus = (props: Props) => {
             note: "-",
             file: [
                 {
+                    fileId: 1,
                     file: null
-                },
-                {
-                    file: null
-                },
+                }
             ]
         },
         {
@@ -97,6 +98,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             note: "-",
             file: [
                 {
+                    fileId: 1,
                     file: null
                 }
             ]
@@ -104,6 +106,28 @@ const ViewTrackProjectStatus = (props: Props) => {
 
     ])
 
+    // const handleAddFile = (statusId: number) => {
+    //     let newFile: fileTypes = {
+    //         fileId: Math.floor(Math.random() * 10000 + 1),
+    //         file: null
+    //     }
+    //     const filterStatus = operationStatus.find((list) => list.statusId === statusId);
+    //     setOperationStatus((prev) => {
+    //         prev.map((data) => {
+    //             if (statusId === data.statusId) {
+    //                 return {
+    //                     ...prev,
+    //                     file: [...prev, newFile]
+    //                 }
+    //             } else {
+    //                 return {
+    //                     ...prev
+    //                 }
+    //                 return data
+    //             }
+    //         })
+    //     })
+    // }
 
     const formState = {
         agencyId: 0,
