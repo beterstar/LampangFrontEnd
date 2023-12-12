@@ -36,9 +36,6 @@ const BoxContainer = styled('div')(({ theme }) => ({
   position: "absolute",
   top: "0",
   left: "0",
-  display: 'flex',
-  justifyContent: "space-between",
-  alignItems: 'center',
   gap: "8px",
   [theme.breakpoints.down('md')]: {
     padding: "1rem 0.5rem",
@@ -60,6 +57,9 @@ interface props {
   minSize?: number;
   onTypeError?: (file: any) => void;
   dropMessageStyle?: {};
+  minHeight?: string;
+  heading?: string;
+  allCenter?: boolean
 }
 
 const FileDragAndDrop: React.FC<props> = (props: props) => {
@@ -86,57 +86,67 @@ const FileDragAndDrop: React.FC<props> = (props: props) => {
   }
 
   return (
-    <ContainerDragFile className="relative w-full h-auto min-h-auto">
-      <FileUploader
-        classes="drop_area drop_zone custom_style"
-        onTypeError={handleTypeError}
-        onSizeError={handleOnSizeError}
-        required={props.required}
-        label={props.label || "ลากหรือเลือกไฟล์เพื่ออัปโหลด"}
-        hoverTitle={props.hoverTitle || ""}
-        disable={props.disabled}
-        multiple={props.multiple}
-        handleChange={handleChange}
-        name={props.name || "file"}
-        types={fileTypes}
-        maxSize={props.maxSize}
-        minSize={props.minSize}
-        dropMessageStyle={props.dropMessageStyle}
-      />
-      <BoxContainer className={`${!file && 'pointer-events-none'}`}>
-        <span className="w-auto flex">
-          <div><img src={RouteImage.cloudIconUpload} alt="" /></div>
-          <span className="flex flex-col ml-6">
-            {file ? (
-              <div className="mt-3 flex flex-col md:flex-row h-auto w-full justify-center items-center gap-4">
-                <Typography variant="body1">
-                  {file?.name}
-                </Typography>
-              </div>
-            ) : (
-              <>
-                <Typography variant="subtitle2">
-                  {notification.file.dragName}
-                </Typography>
-                <Typography className="text-base_secondary" variant="subtitle2">
-                  {notification.file.formatImg}
-                </Typography>
-              </>
-            )}
+    <>
+      {props.heading && (
+        <div className="w-full my-2">
+          <Typography>{props.heading}</Typography>
+        </div>
+      )}
+      <ContainerDragFile
+        style={{ minHeight: props.minHeight }}
+        className="relative w-full h-auto">
+        <FileUploader
+          classes="drop_area drop_zone custom_style"
+          onTypeError={handleTypeError}
+          onSizeError={handleOnSizeError}
+          required={props.required}
+          label={props.label || "ลากหรือเลือกไฟล์เพื่ออัปโหลด"}
+          hoverTitle={props.hoverTitle || ""}
+          disable={props.disabled}
+          multiple={props.multiple}
+          handleChange={handleChange}
+          name={props.name || "file"}
+          types={fileTypes}
+          maxSize={props.maxSize}
+          minSize={props.minSize}
+          dropMessageStyle={props.dropMessageStyle}
+        />
+        <BoxContainer
+          className={`${!file && 'pointer-events-none'} flex items-center ${props.allCenter ? 'justify-center flex-col' : 'justify-between'}`}>
+          <span className={`w-auto flex ${props.allCenter && 'flex-col justify-center items-center text-center gap-y-4'}`}>
+            <div><img width={44} height={31} src={RouteImage.cloudIconUpload} alt="upload-file" /></div>
+            <span className="flex flex-col ml-6">
+              {file ? (
+                <div className="mt-3 flex flex-col md:flex-row h-auto w-full justify-center items-center gap-4">
+                  <Typography variant="body1">
+                    {file?.name}
+                  </Typography>
+                </div>
+              ) : (
+                <>
+                  <Typography variant="subtitle2">
+                    {notification.file.dragName}
+                  </Typography>
+                  <Typography className="text-base_secondary" variant="subtitle2">
+                    {notification.file.formatImg}
+                  </Typography>
+                </>
+              )}
+            </span>
           </span>
-        </span>
-        <span className="flex w-auto gap-2">
-          {file && (
-            <Button sx={{ width:"85px", borderRadius: "10px", padding: '6px 8px' }} onClick={handleDeleteFile} variant="text" color="error">
-              {t("BUTTON.DELETE")}
-            </Button>
-          )}
-          <ButtonOutlined sx={{maxWidth:"85px", border: `1px solid ${colors.primary_main}`, backgroundColor: colors.primary_sub_main }}>
-            {t("UPLOAD_FILE")}
-          </ButtonOutlined>
-        </span>
-      </BoxContainer>
-    </ContainerDragFile>
+          <span className="flex w-auto gap-2">
+            {file && (
+              <Button sx={{ width: "85px", borderRadius: "10px", padding: '6px 8px' }} onClick={handleDeleteFile} variant="text" color="error">
+                {t("BUTTON.DELETE")}
+              </Button>
+            )}
+            <ButtonOutlined sx={{ maxWidth: "85px", border: `1px solid ${colors.primary_main}`, backgroundColor: colors.primary_sub_main }}>
+              {t("UPLOAD_FILE")}
+            </ButtonOutlined>
+          </span>
+        </BoxContainer>
+      </ContainerDragFile>
+    </>
   );
 }
 

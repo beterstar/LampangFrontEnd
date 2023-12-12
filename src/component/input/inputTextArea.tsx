@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { TextareaAutosize } from '@mui/material'
+import { TextareaAutosize, Typography } from '@mui/material'
 import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
 import { colors } from '../../constants/colors';
 import { styled } from '@mui/system';
@@ -9,6 +9,8 @@ interface Props {
     onChange: (data: any) => void;
     value: string;
     placeholder?: string;
+    heading?: string;
+    required?: boolean;
 }
 
 const InputTextArea = (props: Props) => {
@@ -62,16 +64,26 @@ const InputTextArea = (props: Props) => {
     }, [props.onChange]);
 
     return (
-        <div className='border-[1px] border-[rgba(0,0,0,0.12)] rounded-[6px] '>
-            <Textarea
-                value={props.value}
-                sx={{ zIndex: 10 }}
-                onChange={handleChange}
-                maxRows={4}
-                aria-label="maximum height"
-                placeholder={props.placeholder || ""}
-            />
-        </div>
+        <>
+            {props.heading && (
+                <span className='my-2'>
+                    <Typography className='flex'>
+                        {props.heading} {props.required && <div className='text-danger ml-1'>*</div>}
+                    </Typography>
+                </span>
+            )}
+            <div className='border-[1px] border-[rgba(0,0,0,0.12)] rounded-[6px] '>
+                <Textarea
+                    required={props.required}
+                    value={props.value}
+                    sx={{ zIndex: 10 }}
+                    onChange={handleChange}
+                    maxRows={4}
+                    aria-label="maximum height"
+                    placeholder={props.placeholder || ""}
+                />
+            </div>
+        </>
     )
 }
 

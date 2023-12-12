@@ -88,10 +88,19 @@ const Navbar: React.FC = () => {
             <MenuBox>
                 {Menu.map((list: menuProps, index: number) => (
                     <Box className='relative' key={list.id}>
-                        <NavBar onClick={() =>
-                            list.subMenu.length > 0
-                                ? handleToggleMenu(list.id)
-                                : navigate(list.path)}
+                        <NavBar onClick={() => {
+                            if (list.subMenu.length > 0) {
+                                if (list.id === 4) {
+                                    navigate(list.path)
+                                    handleToggleMenu(list.id)
+                                } else {
+                                    handleToggleMenu(list.id)
+                                }
+                            } else {
+                                navigate(list.path)
+                            }
+                        }
+                        }
                             className={`${location.pathname === list.path || location.pathname.includes(list.path) ? 'bg-sub_primary' : ''} relative group w-full h-[48px] px-[20px] cursor-pointer flex flex-col justify-center items-start group hover:bg-sub_primary`}>
                             <motion.div
                                 initial={{ x: -30 }}
@@ -136,6 +145,7 @@ const Navbar: React.FC = () => {
                             {openMenu && selectMenu === list.id && list.subMenu.map((subMenu: subMenuProps) => (
                                 <>
                                     <motion.ul
+                                        onClick={() => navigate(subMenu.path)}
                                         initial={{ y: -100, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
                                         transition={{ stiffness: 200, delay: .1 }}

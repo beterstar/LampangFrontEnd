@@ -65,3 +65,19 @@ export const ButtonContained = styled(Button)({
 export const SelectCustom = styled(Select)({
     
 })
+
+
+export const ButtonOutlinedDanger = styled(Button)({
+    height: '40px',
+    width: "100%",
+    maxWidth: "97px",
+    textTransform:"none",
+    backgroundColor: colors.sub_danger,
+    borderRadius: "8px",
+    border: `1px solid ${colors.danger}`,
+    '&:hover': {
+        backgroundColor: colors.sub_danger,
+        border: `1px solid ${colors.danger}`,
+        boxShadow: "1px 3px 2px 1px rgba(0,0,0,0.12)"
+    }
+})

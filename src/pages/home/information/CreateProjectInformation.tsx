@@ -3,13 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import moment from 'moment'
 import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { withStyles } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 
 // TYPE
-import { typeDisbursement, TabPanelProps, projectProgress, Project } from './type/project.type';
+import { typeDisbursement, projectProgress, Project, createProjectProps } from './type/project.type';
 
 // COMPONENT
 import * as styled from '../style/main.style'
@@ -25,89 +23,23 @@ import { RouteImage } from '../../../assets/routeImage'
 import Dropdown from '../../../component/dropdown/Dropdown';
 import LabelCustom from '../../../component/label/LabelCustom';
 
+// TABS
+import { projectTabsProps, indicatorTabsProps, CustomTabPanel, IndicatorCustomTabPanel, CustomTab } from './tabs/createProjectsTabs';
+
 // STORE
-import { addProject } from '../../../store/slice/projectSlice/projectSlice';
-import * as setFormState from '../../../store/slice/projectSlice/projectSlice'
+// import { addProject } from '../../../store/slice/projectSlice/projectSlice';
+// import * as setFormState from '../../../store/slice/projectSlice/projectSlice'
 
 
 type Props = {}
 
 
 
-function projectTabsProps(index: number) {
-    return {
-        id: `project-tab-${index}`,
-        'aria-controls': `project-tabpanel-${index}`,
-    };
-}
-function indicatorTabsProps(index: number) {
-    return {
-        id: `indicator-tab-${index}`,
-        'aria-controls': `indicator-tabpanel-${index}`,
-    };
-}
-
-
-function CustomTabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`project-tabpanel-${index}`}
-            aria-labelledby={`project-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ padding: "12px 12px" }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
-function IndicatorCustomTabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`indicator-tabpanel-${index}`}
-            aria-labelledby={`indicator-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ padding: "12px 12px" }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
-
-const CustomTab = withStyles({
-    root: {
-        borderRadius: "6px 6px 0 0 !important",
-        backgroundColor: "inherit",
-        color: `${colors.black} important`,
-    },
-    selected: {
-        backgroundColor: `${colors.themeMainColor} !important`,
-        color: `${colors.white} !important`
-    },
-    indicator: {
-        backgroundColor: '#000 !important'
-    }
-})(Tab);
-
-
 const CreateProjectInformation = (props: Props) => {
     // CONSTANT 👇
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    const formState = useSelector((state: any) => state.project)
+    // const formState = useSelector((state: any) => state.project)
 
     // console.log(formState)
 
@@ -116,6 +48,50 @@ const CreateProjectInformation = (props: Props) => {
     const [projectTabs, setProjectTabs] = useState<number>(0);
     const [indicatorTabs, setIndicatorTabs] = useState<number>(0);
     const [selectedTypeProject, setSelectedTypeProject] = useState<number>(1)
+
+    const [formState, setFormState] = useState<createProjectProps>({
+        agencyId: 0,
+        fiscalYear: 0,
+        strategy: 0,
+        tacticsId: 0,
+        plan: 0,
+        startProject: "",
+        endProject: "",
+        projectNameId: 0,
+        detailProject: "",
+        projects: [
+            {
+                projectProgress: [
+                    {
+                        endProject: "",
+                        startProject: ""
+                    }
+                ],
+                disbursement: [
+                    {
+                        date: "",
+                        outstandingBudget: "",
+                        totalBudget: "",
+                        totalDisbursement: ""
+                    }
+                ]
+            }
+        ],
+
+
+        project: [{
+            typeProjectId: 0,
+            typeGroupQuestId: 0,
+            startProject: "",
+            endProject: ""
+        }],
+        disbursement: [{
+            date: "",
+            totalBudget: "",
+            totalDisbursement: "",
+            outstandingBudget: "",
+        }]
+    })
 
     const handleChangeProjectTabs = (event: React.SyntheticEvent, newValue: number) => setProjectTabs(newValue)
     const handleChangeIndicatorTabs = (event: React.SyntheticEvent, newValue: number) => setIndicatorTabs(newValue)
@@ -150,22 +126,22 @@ const CreateProjectInformation = (props: Props) => {
             ]
         }
 
-        dispatch(addProject(projectData));
+        // dispatch(addProject(projectData));
     };
-    const handleAddProjectProgress = () => {
-        let data: projectProgress = {
-            endProject: "",
-            startProject: ""
-        }
-        dispatch(setFormState.addProjectProgress(data))
-    }
-    const handleStartDateChange = (newStartDate: string) => {
-        dispatch(setFormState.changeProjectProgress({ startProject: newStartDate }));
-    };
+    // const handleAddProjectProgress = () => {
+    //     let data: projectProgress = {
+    //         endProject: "",
+    //         startProject: ""
+    //     }
+    //     dispatch(setFormState.addProjectProgress(data))
+    // }
+    // const handleStartDateChange = (newStartDate: string) => {
+    //     dispatch(setFormState.changeProjectProgress({ startProject: newStartDate }));
+    // };
 
-    const handleEndDateChange = (newEndDate: string) => {
-        dispatch(setFormState.changeProjectProgress({ endProject: newEndDate }));
-    };
+    // const handleEndDateChange = (newEndDate: string) => {
+    //     dispatch(setFormState.changeProjectProgress({ endProject: newEndDate }));
+    // };
 
 
     const handleSubmit = (event: React.FormEvent) => {
@@ -231,7 +207,7 @@ const CreateProjectInformation = (props: Props) => {
                                         labelId="label-status"
                                         onchange={(event) => {
                                             const value = event.target.value
-                                            value && dispatch(setFormState.setAgencyId(value))
+                                            // value && dispatch(setFormState.setAgencyId(value))
                                         }}
                                         options={[
                                             <MenuItem key="1" value={1}>
@@ -257,7 +233,7 @@ const CreateProjectInformation = (props: Props) => {
                                         labelId="label-fiscal-year"
                                         onchange={(event) => {
                                             const value = event.target.value
-                                            value && dispatch(setFormState.setFiscalYear(value))
+                                            // value && dispatch(setFormState.setFiscalYear(value))
                                         }}
                                         options={[
                                             <MenuItem key="1" value={1}>
@@ -474,7 +450,7 @@ const CreateProjectInformation = (props: Props) => {
                                                 onChange={handleChangeProjectTabs}
                                                 aria-label="project-tabs">
                                                 {formState.projects?.map((list: any, index: number) => (
-                                                    <CustomTab label={<Typography>{index === 0 ? "โครงการหลัก" : `กิจกรรม${index + 1}`}</Typography>} {...projectTabsProps(index)} />
+                                                    <CustomTab label={<Typography>{index === 0 ? "โครงการหลัก" : `กิจกรรม${index}`}</Typography>} {...projectTabsProps(index)} />
                                                 ))}
                                             </Tabs>
                                             <span >
@@ -491,15 +467,21 @@ const CreateProjectInformation = (props: Props) => {
                                         <div className='bg-bg_secondary mt-2'>
                                             {formState.projects?.map((list: Project, index: number) => (
                                                 <CustomTabPanel key={index} value={projectTabs} index={index}>
+                                                    <section className='w-full'>
+                                                        <LabelCustom
+                                                            variant='h6'
+                                                            isRequired
+                                                            text='งวดความคืบหน้าโครงการ'
+                                                        />
+                                                    </section>
                                                     {list.projectProgress?.map((list, i: number) => (
-                                                        <section className='w-full'>
+                                                        <motion.section
+                                                            initial={{ y: -50 }}
+                                                            animate={{ y: 0 }}
+                                                            transition={{ ease: "backInOut", stiffness: 150 }}
+                                                            className='w-full'>
                                                             <article className='flex items-center justify-between'>
                                                                 <span className='flex flex-col'>
-                                                                    <LabelCustom
-                                                                        variant='h6'
-                                                                        isRequired
-                                                                        text='งวดความคืบหน้าโครงการ'
-                                                                    />
                                                                     <LabelCustom
                                                                         className='mt-2'
                                                                         text={t(`งวดที่ ${i + 1} ภายในวันที่`)}
@@ -520,9 +502,9 @@ const CreateProjectInformation = (props: Props) => {
                                                                         key={"START_PROJECT"}
                                                                         value={list.startProject}
                                                                         placeholder={t('ระบุวันเริ่มต้นโครงการ')}
-                                                                        onClear={() => handleStartDateChange("")}
+                                                                        // onClear={() => handleStartDateChange("")}
                                                                         onChange={(e: any) => {
-                                                                            handleStartDateChange(moment(e).format("YYYY-MM-DD"))
+                                                                            // handleStartDateChange(moment(e).format("YYYY-MM-DD"))
                                                                         }}
                                                                         allowClear
                                                                         heading={t("เริ่มต้นโครงการ")}
@@ -537,9 +519,9 @@ const CreateProjectInformation = (props: Props) => {
                                                                         key={"END_PROJECT"}
                                                                         value={list.endProject}
                                                                         placeholder={t('ระบุวันสิ้นสุดโครงการ')}
-                                                                        onClear={() => handleEndDateChange("")}
+                                                                        // onClear={() => handleEndDateChange("")}
                                                                         onChange={(e: any) => {
-                                                                            handleEndDateChange(moment(e).format("YYYY-MM-DD"))
+                                                                            // handleEndDateChange(moment(e).format("YYYY-MM-DD"))
                                                                         }}
                                                                         allowClear
                                                                         heading={t("สิ้นสุดโครงการ")}
@@ -548,7 +530,7 @@ const CreateProjectInformation = (props: Props) => {
                                                                 <div className='col-span-12 lg:col-span-2 self-end'>
                                                                     {i === 0 && (
                                                                         <ButtonOutlined
-                                                                            onClick={handleAddProjectProgress}
+                                                                            // onClick={handleAddProjectProgress}
                                                                             sx={{ maxWidth: "75px", width: "100%", height: '42px' }}
                                                                             startIcon={<img className='max-w-20' src={RouteImage.addButton} />}
                                                                         >
@@ -559,7 +541,7 @@ const CreateProjectInformation = (props: Props) => {
                                                                     )}
                                                                 </div>
                                                             </article>
-                                                        </section>
+                                                        </motion.section>
                                                     ))}
 
                                                     {/* งวดเบิกจ่าย  👇 */}
@@ -848,9 +830,9 @@ const CreateProjectInformation = (props: Props) => {
                                                     key={"START_PROJECT"}
                                                     value={""}
                                                     placeholder={t('ระบุวันเริ่มต้นโครงการ')}
-                                                    onClear={() => handleStartDateChange("")}
+                                                    // onClear={() => handleStartDateChange("")}
                                                     onChange={(e: any) => {
-                                                        handleStartDateChange(moment(e).format("YYYY-MM-DD"))
+                                                        // handleStartDateChange(moment(e).format("YYYY-MM-DD"))
                                                     }}
                                                     allowClear
                                                     heading={t("เริ่มต้นโครงการ")}
@@ -865,9 +847,9 @@ const CreateProjectInformation = (props: Props) => {
                                                     key={"END_PROJECT"}
                                                     value={""}
                                                     placeholder={t('ระบุวันสิ้นสุดโครงการ')}
-                                                    onClear={() => handleEndDateChange("")}
+                                                    // onClear={() => handleEndDateChange("")}
                                                     onChange={(e: any) => {
-                                                        handleEndDateChange(moment(e).format("YYYY-MM-DD"))
+                                                        // handleEndDateChange(moment(e).format("YYYY-MM-DD"))
                                                     }}
                                                     allowClear
                                                     heading={t("สิ้นสุดโครงการ")}

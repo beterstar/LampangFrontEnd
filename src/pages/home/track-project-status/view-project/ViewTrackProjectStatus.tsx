@@ -7,7 +7,7 @@ import { motion } from 'framer-motion'
 
 // COMPONENT
 import { colors } from '../../../../constants/colors'
-import { ButtonContained, ButtonOutlined } from '../../../../component/mui-custom/MuiCustom'
+import { ButtonContained, ButtonOutlined, ButtonOutlinedDanger } from '../../../../component/mui-custom/MuiCustom'
 import { Box, Button, MenuItem, Tabs } from '@mui/material'
 import { CustomTab, CustomTabPanel } from '../../../../component/Tabs/TabsCustom'
 import { RouteImage } from '../../../../assets/routeImage'
@@ -23,8 +23,13 @@ import Dropdown from '../../../../component/dropdown/Dropdown'
 import { numberFormat } from '../../../../utils/common'
 import FileDragAndDrop from '../../../../component/dragAndDrop/dragAndDrop'
 import { notification } from '../../../../constants/notificationMessage'
-import { swalActive, swalError } from '../../../../component/notification/swal'
-import { SectionStatusProject } from './ViewTrackProjectStatus.style'
+import { swalError } from '../../../../component/notification/swal'
+import { ProjectProgressReportBox, SectionStatusProject } from './style/ViewTrackProjectStatus.style'
+import TrackingProcess from './tracking/TrackingProcess'
+
+// TYPE
+import { operation, projectProgressReport } from './type/viewTrack.type'
+import FileTracking from './file/FileTracking'
 
 function projectTabsProps(index: number) {
     return {
@@ -38,18 +43,6 @@ type Props = {}
 const ViewTrackProjectStatus = (props: Props) => {
     const { t } = useTranslation();
 
-    type fileTypes = {
-        fileId: number;
-        file: File | null;
-    }
-    type operation = {
-        statusId: number;
-        statusName: string;
-        createDate: string;
-        date: string;
-        note: string;
-        file: fileTypes[]
-    }
     const [operationStatus, setOperationStatus] = useState<operation[]>([
         {
             statusId: 2,
@@ -57,6 +50,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
+            isShow: false,
             file: [
                 {
                     fileId: 1,
@@ -70,6 +64,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
+            isShow: false,
             file: [
                 {
                     fileId: 1,
@@ -83,6 +78,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
+            isShow: false,
             file: [
                 {
                     fileId: 1,
@@ -96,6 +92,101 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
+            isShow: false,
+            file: [
+                {
+                    fileId: 1,
+                    file: null
+                }
+            ]
+        },
+        {
+            statusId: 6,
+            statusName: "ส่งมอบงาน/ตรวจรับงาน",
+            createDate: "2023-02-20",
+            date: "2021-02-21",
+            note: "-",
+            isShow: false,
+            installmentWork: {
+                deliveryDate: "2023-02-11",
+                dateOfInspection: "2023-02-11",
+                dateSending: "2023-02-11",
+            },
+            endInstallmentWork: {
+                deliveryDate: "2023-02-11",
+                dateOfInspection: "2023-02-11",
+                dateSending: "2023-02-11",
+            },
+            file: [
+                {
+                    fileId: 1,
+                    file: null
+                }
+            ]
+        },
+        {
+            statusId: 7,
+            statusName: "หน่วยงานเจ้าของงบประมาณจัดทำฎีกาเบิกจ่าย",
+            createDate: "2023-02-20",
+            date: "2021-02-21",
+            note: "-",
+            isShow: false,
+            file: [
+                {
+                    fileId: 1,
+                    file: null
+                }
+            ]
+        },
+        {
+            statusId: 8,
+            statusName: "รายงานการเบิกจ่าย/จัดทำฎีกา (คลัง)",
+            createDate: "2023-02-20",
+            date: "2021-02-21",
+            note: "-",
+            isShow: false,
+            file: [
+                {
+                    fileId: 1,
+                    file: null
+                }
+            ]
+        },
+        {
+            statusId: 9,
+            statusName: "รายงานจัดทำเช็ค",
+            createDate: "2023-02-20",
+            date: "2021-02-21",
+            note: "-",
+            isShow: false,
+            file: [
+                {
+                    fileId: 1,
+                    file: null
+                }
+            ]
+        },
+        {
+            statusId: 10,
+            statusName: "วันที่รับเช็ค",
+            createDate: "2023-02-20",
+            date: "2021-02-21",
+            note: "-",
+            isShow: false,
+            file: [
+                {
+                    fileId: 1,
+                    file: null
+                }
+            ]
+        },
+        {
+            statusId: 11,
+            statusName: "สรุปและประเมินผลโครงการ",
+            createDate: "2023-02-20",
+            date: "2021-02-21",
+            note: "-",
+            isShow: false,
             file: [
                 {
                     fileId: 1,
@@ -105,31 +196,7 @@ const ViewTrackProjectStatus = (props: Props) => {
         },
 
     ])
-
-    // const handleAddFile = (statusId: number) => {
-    //     let newFile: fileTypes = {
-    //         fileId: Math.floor(Math.random() * 10000 + 1),
-    //         file: null
-    //     }
-    //     const filterStatus = operationStatus.find((list) => list.statusId === statusId);
-    //     setOperationStatus((prev) => {
-    //         prev.map((data) => {
-    //             if (statusId === data.statusId) {
-    //                 return {
-    //                     ...prev,
-    //                     file: [...prev, newFile]
-    //                 }
-    //             } else {
-    //                 return {
-    //                     ...prev
-    //                 }
-    //                 return data
-    //             }
-    //         })
-    //     })
-    // }
-
-    const formState = {
+    const [formState, setFormState] = useState<any>({
         agencyId: 0,
         fiscalYear: 0,
         strategy: 0,
@@ -166,13 +233,10 @@ const ViewTrackProjectStatus = (props: Props) => {
                 ],
                 responsiblePersonProject: [
                     {
-                        personName: "พงศ์ ปัทมเดชา",
-                        responsibleProportion: "100"
-                    },
-                    {
-                        personName: "เลือก",
-                        responsibleProportion: "100"
-                    },
+                        projectId: 1,
+                        personName: "",
+                        responsibleProportion: ""
+                    }
                 ],
                 totalBudget: 20000000,
                 totalDisbursement: 10000000,
@@ -187,34 +251,96 @@ const ViewTrackProjectStatus = (props: Props) => {
                 ]
             },
         ]
+    })
+    const [projectProgressReport, setProjectProgressReport] = useState<projectProgressReport[]>([
+        {
+            time: 1,
+            date: "2023-12-02",
+            createDate: "2023-12-02",
+            file: null,
+            isShow: false
+        },
+        {
+            time: 2,
+            date: "2023-12-02",
+            createDate: "2023-12-02",
+            file: null,
+            isShow: true
+        },
+    ])
+
+    const onDrop = useCallback((acceptedFiles: File) => { console.log(acceptedFiles) }, [])
+    const handleOnSizeError = (errorText: string) => swalError(errorText)
+    const handleOnTypeError = (errorText: string) => { swalError(errorText) }
+
+
+    const handleToggleShowStatus = (statusId: number) => {
+        setOperationStatus((prev: any) => {
+            return prev.map((list: any) => {
+                if (list.statusId === statusId) {
+                    return {
+                        ...list,
+                        isShow: !list.isShow,
+                    };
+                }
+                return list;
+            });
+        });
+    };
+    const handleToggleProgressReport = (time: number) => {
+        setProjectProgressReport((prev) => {
+            return prev.map((list: projectProgressReport) => {
+                if (list.time === time) {
+                    return {
+                        ...list,
+                        isShow: !list.isShow
+                    }
+                }
+                return list
+            })
+        })
     }
 
-    console.log(formState)
-    const location = useLocation();
 
-    const onDrop = useCallback((acceptedFiles: File) => {
-        // setOperationStatus((prev: operation[]) => {
-        //     return prev.map((list) => ({
-        //         ...list,
-        //         file: list.file.map((data) => {
-        //             return {
-        //                 ...data,
-        //                 file: acceptedFiles
-        //             }
-        //         })
-        //     }))
-        // })
-        console.log(acceptedFiles)
-    }, [])
+    // add person
+    const handleAddPerson = () => {
+        let newPerson = {
+            personId: Math.floor(Math.random() * 1000000),
+            personName: "",
+            responsibleProportion: ""
+        }
 
-    const handleOnSizeError = (errorText: string) => {
-        console.log(errorText)
-        swalError(errorText)
+        setFormState((prev: any) => {
+            return {
+                ...prev,
+                projects: prev?.projects?.map((list: any) => {
+                    return {
+                        ...list,
+                        responsiblePersonProject: [
+                            ...list.responsiblePersonProject,
+                            newPerson
+                        ]
+                    }
+                })
+            }
+        })
     }
-    const handleOnTypeError = (errorText: string) => {
-        swalError(errorText)
-    }
-
+    // delete person
+    const handleDeletePerson = (personId: number) => {
+        setFormState((prev: any) => {
+            return {
+                ...prev,
+                projects: prev.projects.map((project: any) => {
+                    return {
+                        ...project,
+                        responsiblePersonProject: project.responsiblePersonProject?.filter((person: any) => {
+                            return person.personId !== personId;
+                        })
+                    };
+                })
+            };
+        });
+    };
 
     const [projectTabs, setProjectTabs] = useState<number>(0);
     const [isDisbursement, setIsDisbursement] = useState<boolean>(false);
@@ -771,13 +897,17 @@ const ViewTrackProjectStatus = (props: Props) => {
 
                                             {/* ผู้รับผิดชอบโครงการ 👇*/}
                                             {list.responsiblePersonProject?.map((data: any, i: number) => (
-                                                <section key={i} className='w-full mt-2'>
+                                                <motion.section
+                                                    initial={{ y: -50 }}
+                                                    animate={{ y: 0 }}
+                                                    transition={{ ease: "backInOut", stiffness: 100 }}
+                                                    key={i} className='w-full mt-2'>
                                                     <article className='grid grid-cols-12 gap-2 mt-2'>
-                                                        <span className='col-span-12 lg:col-span-10'>
+                                                        <span className={`${i === 0 ? 'col-span-12 lg:col-span-10' : 'col-span-12 lg:col-span-8'}`}>
                                                             <FilterSelect
                                                                 required
                                                                 disabled
-                                                                heading={t("ผู้รับผิดชอบโครงการหลัก")}
+                                                                heading={i === 0 ? t("ผู้รับผิดชอบโครงการหลัก") : t("ผู้รับผิดชอบโครงการรอง")}
                                                                 renderValue={() => data.personName || "-"}
                                                                 label={t('STATUS.LABEL')}
                                                                 selectId="select-fiscal-year"
@@ -802,13 +932,23 @@ const ViewTrackProjectStatus = (props: Props) => {
 
                                                             />
                                                         </span>
+                                                        {i !== 0 && (
+                                                            <span className='col-span-2 lg:col-span-2 self-end flex justify-start'>
+                                                                <ButtonOutlinedDanger
+                                                                    onClick={() => handleDeletePerson(data?.personId)}
+                                                                    color='error'>
+                                                                    {t("BUTTON.DELETE")}
+                                                                </ButtonOutlinedDanger>
+                                                            </span>
+                                                        )}
                                                     </article>
-                                                </section>
+                                                </motion.section>
                                             ))}
                                             <section className='w-full mt-2'>
                                                 <article className='w-full flex justify-start lg:justify-end items-center mt-2'>
                                                     <div className='w-auto'>
                                                         <ButtonOutlined
+                                                            onClick={handleAddPerson}
                                                             sx={{ maxWidth: "75px", width: "100%", height: '42px' }}
                                                             startIcon={<img className='max-w-20' src={RouteImage.addButton} />}
                                                         >
@@ -839,33 +979,142 @@ const ViewTrackProjectStatus = (props: Props) => {
                                                     {t("สถานะการดำเนินงาน")}
                                                 </Typography>
                                             </section>
-                                            {operationStatus.map((list: operation) => (
-                                                <SectionStatusProject>
-                                                    <article className='w-full flex justify-between'>
-                                                        <span><Typography variant='h6'>{`${list.statusId}.${list.statusName}`}</Typography></span>
-                                                        <span><Typography variant='subtitle1'>{`บันทึกเมือ ${list.createDate} เวลา 11.30.29 น.`}</Typography></span>
+
+                                            {operationStatus.map((list: operation, index: number) => (
+                                                <SectionStatusProject
+                                                    onClick={() => list.isShow ? handleToggleShowStatus(list.statusId) : null}
+                                                    className={`duration-150 delay-75 ${list.isShow ? 'cursor-pointer hover:bg-sub_primary' : ""}`}
+                                                    style={{ minHeight: list.isShow ? '' : "429px" }}
+                                                >
+                                                    <article className='w-full flex flex-col md:flex-row justify-between'>
+                                                        <span className={`${list.isShow ? 'flex flex-col justify-start md:flex-row items-center md:justify-start gap-x-3' : ''}`}>
+                                                            <Typography variant='h6'>{`${list.statusId}.${list.statusName}`}</Typography>
+                                                            {list.isShow && (
+                                                                <Typography className='text-base_secondary' variant='body1'>
+                                                                    {"วันที่เอกสาร 20/11/2566"}
+                                                                </Typography>
+                                                            )}
+                                                        </span>
+                                                        <div className="w-auto flex justify-center md:justify-end items-center gap-4">
+                                                            <span><Typography variant='subtitle1'>{`บันทึกเมือ ${list.createDate} เวลา 11.30.29 น.`}</Typography></span>
+                                                            <span className={`cursor-pointer ${list.isShow ? 'rotate-180' : 'z-50'}`} onClick={() => handleToggleShowStatus(list.statusId)} >
+                                                                <img src={RouteImage.downArrow} alt="drop-down" />
+                                                            </span>
+                                                        </div>
                                                     </article>
-                                                    <article className='w-full max-w-[177px]'>
-                                                        <InputDatePicker
-                                                            required
-                                                            disabled
-                                                            inputName='startProject'
-                                                            inputHeight={42}
-                                                            dateFormat="DD/MM/YYYY"
-                                                            key={"START_PROJECT"}
-                                                            value={list.date}
-                                                            placeholder={t('-')}
-                                                            onChange={(e: any) => { }}
-                                                            heading={t("เมื่อวันที่")}
-                                                        />
+                                                    <article className='flex w-auto gap-3'>
+                                                        {list.statusId !== 6 && (
+                                                            <span className={`w-full max-w-[177px] ${list.isShow ? 'hidden' : ''}`}>
+                                                                <InputDatePicker
+                                                                    required
+                                                                    inputName='startProject'
+                                                                    inputHeight={42}
+                                                                    dateFormat="DD/MM/YYYY"
+                                                                    key={"START_PROJECT"}
+                                                                    value={list.date}
+                                                                    placeholder={t('-')}
+                                                                    onChange={(e: any) => { }}
+                                                                    heading={t("เมื่อวันที่")}
+                                                                />
+                                                            </span>
+                                                        )}
                                                     </article>
-                                                    <article className='w-full'>
+
+                                                    {/* มีหลายงวดงาน ตามที่สมัคร */}
+                                                    {list.statusId === 6 && (
+                                                        <article className='w-full flex flex-col md:flex-row gap-3'>
+                                                            <span className={`w-full max-w-[177px] ${list.isShow ? 'hidden' : ''}`}>
+                                                                <InputDatePicker
+                                                                    required
+                                                                    inputName='startProject'
+                                                                    inputHeight={42}
+                                                                    dateFormat="DD/MM/YYYY"
+                                                                    key={"START_PROJECT"}
+                                                                    value={list.installmentWork?.deliveryDate}
+                                                                    placeholder={t('-')}
+                                                                    onChange={(e: any) => { }}
+                                                                    heading={t("งวดงานที่ 1 วันที่ส่งมอบ")}
+                                                                />
+                                                            </span>
+                                                            <span className={`w-full max-w-[177px] ${list.isShow ? 'hidden' : ''}`}>
+                                                                <InputDatePicker
+                                                                    required
+                                                                    inputName='startProject'
+                                                                    inputHeight={42}
+                                                                    dateFormat="DD/MM/YYYY"
+                                                                    key={"START_PROJECT"}
+                                                                    value={list.installmentWork?.dateOfInspection}
+                                                                    placeholder={t('-')}
+                                                                    onChange={(e: any) => { }}
+                                                                    heading={t("วันที่ตรวจรับ")}
+                                                                />
+                                                            </span>
+                                                            <span className={`w-full max-w-[177px] ${list.isShow ? 'hidden' : ''}`}>
+                                                                <InputDatePicker
+                                                                    required
+                                                                    inputName='startProject'
+                                                                    inputHeight={42}
+                                                                    dateFormat="DD/MM/YYYY"
+                                                                    key={"START_PROJECT"}
+                                                                    value={list.installmentWork?.dateSending}
+                                                                    placeholder={t('-')}
+                                                                    onChange={(e: any) => { }}
+                                                                    heading={t("วันที่ส่งตั้งฎีกา")}
+                                                                />
+                                                            </span>
+                                                        </article>
+                                                    )}
+
+                                                    {list.statusId === 6 && (
+                                                        <article className='w-full flex flex-col md:flex-row gap-3'>
+                                                            <span className={`w-full max-w-[177px] ${list.isShow ? 'hidden' : ''}`}>
+                                                                <InputDatePicker
+                                                                    required
+                                                                    inputName='startProject'
+                                                                    inputHeight={42}
+                                                                    dateFormat="DD/MM/YYYY"
+                                                                    key={"START_PROJECT"}
+                                                                    value={list.endInstallmentWork?.deliveryDate}
+                                                                    placeholder={t('-')}
+                                                                    onChange={(e: any) => { }}
+                                                                    heading={t("เมื่อวันที่")}
+                                                                />
+                                                            </span>
+                                                            <span className={`w-full max-w-[177px] ${list.isShow ? 'hidden' : ''}`}>
+                                                                <InputDatePicker
+                                                                    required
+                                                                    inputName='startProject'
+                                                                    inputHeight={42}
+                                                                    dateFormat="DD/MM/YYYY"
+                                                                    key={"START_PROJECT"}
+                                                                    value={list.endInstallmentWork?.dateOfInspection}
+                                                                    placeholder={t('-')}
+                                                                    onChange={(e: any) => { }}
+                                                                    heading={t("วันที่ตรวจรับ")}
+                                                                />
+                                                            </span>
+                                                            <span className={`w-full max-w-[177px] ${list.isShow ? 'hidden' : ''}`}>
+                                                                <InputDatePicker
+                                                                    required
+                                                                    inputName='startProject'
+                                                                    inputHeight={42}
+                                                                    dateFormat="DD/MM/YYYY"
+                                                                    key={"START_PROJECT"}
+                                                                    value={list.endInstallmentWork?.dateSending}
+                                                                    placeholder={t('-')}
+                                                                    onChange={(e: any) => { }}
+                                                                    heading={t("วันที่ส่งตั้งฎีกา")}
+                                                                />
+                                                            </span>
+                                                        </article>
+                                                    )}
+                                                    <article className={`w-full  ${list.isShow ? 'hidden' : ''}`}>
                                                         <InputTextField
                                                             heading={t("หมายเหตุ")}
                                                             value={list.note}
                                                         />
                                                     </article>
-                                                    <article className='w-full flex flex-col gap-2'>
+                                                    <article className={`w-full flex flex-col gap-2 ${list.isShow ? 'hidden' : ''}`}>
                                                         <LabelCustom
                                                             text='แนบไฟล์'
                                                         />
@@ -902,9 +1151,105 @@ const ViewTrackProjectStatus = (props: Props) => {
                                                     </article>
                                                 </SectionStatusProject>
                                             ))}
+                                            {/* Button ปิดโครงการ 👇*/}
+                                            <section className='w-full flex gap-3 my-3 justify-end items-center'>
+                                                <span>
+                                                    <ButtonOutlined
+                                                        startIcon={<img src={RouteImage.addButton} />}
+                                                    >
+                                                        <Typography className='text-primary'>
+                                                            {t("เพิ่มสถานะถัดไป")}
+                                                        </Typography>
+                                                    </ButtonOutlined>
+                                                </span>
+                                                <span>
+                                                    <ButtonContained>
+                                                        <Typography>
+                                                            {t("ปิดโครงการ")}
+                                                        </Typography>
+                                                    </ButtonContained>
+                                                </span>
+                                            </section>
+
+                                            {/* รายงานความคืบหน้าโครงการ 👇*/}
+                                            <section className='w-full'>
+                                                <Typography className='text-primary' variant='h5'>
+                                                    {"รายงานความคืบหน้าโครงการ"}
+                                                </Typography>
+                                                <article className='flex flex-col gap-3 mt-3'>
+                                                    {projectProgressReport.map((data) => (
+                                                        <>
+                                                            <ProjectProgressReportBox
+                                                                onClick={() => !data.isShow && handleToggleProgressReport(data.time)}
+                                                                className={`shadow-md ${data.isShow ? 'h-full min-[462px] duration-150 delay-75' : 'h-full min-h-[48px] hover:bg-sub_primary cursor-pointer'}`} key={data.time}>
+                                                                <div className='w-full flex flex-col md:flex-row justify-center md:justify-between items-center'>
+                                                                    <span className={`${list.isShow ? 'flex flex-col justify-start md:flex-row items-center md:justify-start gap-x-3' : ''}`}>
+                                                                        <Typography variant='h6'>{`ครั้งที่ ${data.time}`}</Typography>
+                                                                        {!data.isShow && (
+                                                                            <Typography className='text-base_secondary' variant='body1'>
+                                                                                {"วันที่เอกสาร 20/11/2566"}
+                                                                            </Typography>
+                                                                        )}
+                                                                    </span>
+                                                                    <div className={`w-auto flex justify-end items-center gap-4`}>
+                                                                        <span><Typography variant='subtitle1'>{`บันทึกเมือ ${data.createDate} เวลา 11.30.29 น.`}</Typography></span>
+                                                                        <span className={`cursor-pointer ${data.isShow ? 'rotate-180' : ''}`} onClick={() => handleToggleProgressReport(data.time)} >
+                                                                            <img src={RouteImage.downArrow} alt="drop-down" />
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <main className={`flex gap-3 flex-col md:flex-row ${data.isShow ? '' : 'hidden'}`}>
+                                                                    <span className='w-full max-w-[78px]'>
+                                                                        <InputTextField
+                                                                            value={`99 %`}
+                                                                            heading='ผลสัมฤทธิ์'
+                                                                        />
+                                                                    </span>
+                                                                    <span className='hidden md:flex justify-center items-end pb-2 h-full'>=</span>
+                                                                    <span className='w-full max-w-[100px]'>
+                                                                        <InputTextField heading='เกณฑ์คุณภาพ' disabled value={4} />
+                                                                    </span>
+                                                                    <span>
+                                                                        <InputDatePicker
+                                                                            inputName='dateReport'
+                                                                            inputHeight={42}
+                                                                            dateFormat="DD/MM/YYYY"
+                                                                            key={"START_PROJECT"}
+                                                                            value={data.date}
+                                                                            placeholder={t('ระบุวันที่')}
+                                                                            onChange={() => { }}
+                                                                            heading={`วันที่รายงาน`}
+                                                                        />
+                                                                    </span>
+                                                                </main>
+                                                                <div className={`w-full h-full ${!data.isShow && 'hidden'}`}>
+                                                                    <FileDragAndDrop
+                                                                        allCenter
+                                                                        heading='แนบไฟล์'
+                                                                        minHeight='300px'
+                                                                        maxSize={2}
+                                                                        onTypeError={handleOnTypeError}
+                                                                        onSizeError={handleOnSizeError}
+                                                                        dropMessageStyle={{
+                                                                            backgroundColor: "#000"
+                                                                        }}
+                                                                        onUpload={() => { }}
+                                                                    />
+                                                                </div>
+                                                            </ProjectProgressReportBox>
+                                                        </>
+                                                    ))}
+                                                </article>
+                                            </section>
                                         </CustomTabPanel>
                                     ))}
                                 </div>
+                                {/* การติดตามผลการดำเนินงาน 👇*/}
+
+                                <TrackingProcess />
+
+                                {/* เอกสาร 👇*/}
+                                <FileTracking />
 
                             </Box>
                         </article>

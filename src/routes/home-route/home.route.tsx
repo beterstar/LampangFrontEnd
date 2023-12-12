@@ -4,6 +4,7 @@ import CreateProjectInformation from "../../pages/home/information/CreateProject
 import TrackProjectStatus from "../../pages/home/track-project-status/TrackProjectStatus";
 import UsageStatistics from "../../pages/home/statistics-usage/UsageStatistics";
 import ViewTrackProjectStatus from "../../pages/home/track-project-status/view-project/ViewTrackProjectStatus";
+import Report from '../../pages/home/report/Report'
 
 interface routes {
     key: string;
@@ -29,6 +30,13 @@ export const homeRoute: routes[] = [
         labelNameEn: "Project information",
         labelNameTh: "ข้อมูลโครงการ",
         component: ProjectInformation
+    },
+    {
+        key: "HOME_PROJECT_REPORT",
+        path: "/auth/report",
+        labelNameEn: "Report information",
+        labelNameTh: "รายงาน",
+        component: Report
     },
     {
         key: "HOME_PROJECT_INFORMATION-CREATE-PROJECT",

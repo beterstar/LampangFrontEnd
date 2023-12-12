@@ -9,6 +9,7 @@ export const colors = {
     lampang_button_secondary:"#EEA23E",
     primary_main:"#0A77FF",
     primary_sub_main:"#FBFDFE",
+    sub_danger:"#FFEFEE",
    
 
     // theme main color

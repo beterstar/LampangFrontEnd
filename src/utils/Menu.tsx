@@ -53,10 +53,34 @@ export const Menu: menuProps[] = [
         subMenu: [
             {
                 subMenuId: 5,
-                subMenuName: "ทดสอบ",
+                subMenuName: "บ้ญชีครุภัณฑ์",
+                path: "/auth/report/equipment-account",
+                subThirdMenu: []
+            },
+            {
+                subMenuId: 6,
+                subMenuName: "ผลสัมฤทธิ์การดำเนินงาน",
                 path: "/",
                 subThirdMenu: []
-            }
+            },
+            {
+                subMenuId: 7,
+                subMenuName: "ผลการใช้จ่ายงบประมาณ",
+                path: "/",
+                subThirdMenu: []
+            },
+            {
+                subMenuId: 8,
+                subMenuName: "ความสำเร็จของโครงการ",
+                path: "/",
+                subThirdMenu: []
+            },
+            {
+                subMenuId: 9,
+                subMenuName: "ความคืบหน้าโครงการ",
+                path: "/",
+                subThirdMenu: []
+            },
         ]
     },
     {
