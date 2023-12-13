@@ -1,49 +1,60 @@
 import React, { useState } from 'react'
-import Header from '../Header'
-import * as styled from '../style/main.style'
-import Navbar from '../Navbar'
 import { useTranslation } from 'react-i18next'
 import { MenuItem, Typography } from '@mui/material'
+import moment from 'moment'
+import { NavigateFunction, useNavigate, Link } from 'react-router-dom'
+
+// COMPONENT
+import * as styled from '../style/main.style'
+import Header from '../Header'
+import Navbar from '../Navbar'
 import InputDatePicker from '../../../component/input/inputDatePicker'
 import FilterSelect from '../../../component/select/filterSelect'
-import moment from 'moment'
 import InputTextField from '../../../component/input/inputTextField'
 import SearchIcon from '@mui/icons-material/Search';
-import { ButtonContained, ButtonOutlined } from '../../../component/mui-custom/MuiCustom'
-import { RouteImage } from '../../../assets/routeImage'
 import TableCustom from '../../../component/table/tableCustom'
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import TableRowCommon from '../../../component/table/TableRowCommon'
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import { RouteImage } from '../../../assets/routeImage'
+import { ButtonContained } from '../../../component/mui-custom/MuiCustom'
 
 type Props = {}
+
 
 
 let mockData = [
     {
         id: 1,
-        report: "รายงานบัญชีครุภัณฑ์"
+        report: "รายงานบัญชีครุภัณฑ์",
+        path: "/auth/report/equipment-account"
     },
     {
         id: 2,
-        report: "รายงานการแสดงผลสัมฤทธิ์การดำเนินงาน"
+        report: "รายงานการแสดงผลสัมฤทธิ์การดำเนินงาน",
+        path: "/auth/report/operational-achievements"
     },
     {
         id: 3,
-        report: "รายงานผลการใช้จ่ายงบประมาณ"
+        report: "รายงานผลการใช้จ่ายงบประมาณ",
+        path: "/auth/report/budget-spending"
     },
     {
         id: 4,
-        report: "รายงานการแสดงผลความสำเร็จของโครงการ"
+        report: "รายงานการแสดงผลความสำเร็จของโครงการ",
+        path: "/auth/report/project-success"
     },
     {
         id: 5,
-        report: "รายงานความคืบหน้าโครงการ สถานะแถบสีได้อย่างน้อย 5 ระดับ"
+        report: "รายงานความคืบหน้าโครงการ สถานะแถบสีได้อย่างน้อย 5 ระดับ",
+        path: "/auth/report/project-progress"
     },
 
 ]
 
+
 const Report: React.FC<Props> = (props: Props) => {
     const { t } = useTranslation();
+    const navigate: NavigateFunction = useNavigate();
 
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
@@ -53,6 +64,7 @@ const Report: React.FC<Props> = (props: Props) => {
     const [fiscalYear, setFiscalYear] = useState<number>(Number);
     const [allStatus, setAllStatus] = useState<number>(Number);
     const [search, setSearch] = useState<string>("");
+
 
 
     const headCells = [
@@ -75,13 +87,13 @@ const Report: React.FC<Props> = (props: Props) => {
                 </div>
         },
         {
-            id: "STATUS", disablePadding: false, align: "left", label:""
+            id: "STATUS", disablePadding: false, align: "left", label: ""
         },
     ];
 
     const renderData = (objData: any, no: any) => {
         no = page * pageLimit - pageLimit + no + 1
-        const { id, report } =
+        const { id, report, path } =
             objData;
 
         const objRenderData = {
@@ -100,10 +112,10 @@ const Report: React.FC<Props> = (props: Props) => {
                     align: "center",
                     component: (
                         <div className='text-left h-full w-full flex'>
-                            <span className='flex gap-x-3'>
+                            <Link to={path} className='flex gap-x-3'>
                                 <RemoveRedEyeOutlinedIcon className='text-base_disable cursor-pointer' />
                                 <Typography>{t("BUTTON.VIEW")}</Typography>
-                            </span>
+                            </Link>
                         </div >
                     ),
                 },
@@ -115,6 +127,7 @@ const Report: React.FC<Props> = (props: Props) => {
     };
 
 
+
     return (
         <styled.ContainerHome>
             <Navbar />
@@ -123,7 +136,7 @@ const Report: React.FC<Props> = (props: Props) => {
                 <styled.Content>
                     <section>
                         <Typography className='text-primary' variant='h4'>
-                            รายงาน
+                            {"รายงาน"}
                         </Typography>
                     </section>
                     <section className='w-full mt-8'>

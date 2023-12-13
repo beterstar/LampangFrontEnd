@@ -8,6 +8,7 @@ import { RouteImage } from '../../../../../assets/routeImage';
 import TableCustom from '../../../../../component/table/tableCustom';
 import TableRowCommon from '../../../../../component/table/TableRowCommon';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import FileDragAndDrop from '../../../../../component/dragAndDrop/dragAndDrop';
 
 type Props = {}
 const mockData = [
@@ -140,6 +141,19 @@ const FileTracking: React.FC<Props> = (props: Props) => {
                     setPageLimit={(value: number) => { }}
                     setPage={(value: number) => { }}
                     hidePagination
+                />
+            </section>
+            <section className='mt-5'>
+                <FileDragAndDrop
+                    heading='แนบไฟล์'
+                    minHeight='80px'
+                    maxSize={2}
+                    onTypeError={(val) => console.log(val)}
+                    onSizeError={(err) => console.log(err)}
+                    dropMessageStyle={{
+                        backgroundColor: "#000"
+                    }}
+                    onUpload={() => { }}
                 />
             </section>
         </div>

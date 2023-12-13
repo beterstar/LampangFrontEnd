@@ -6,8 +6,8 @@ import { NavigateFunction, useNavigate } from 'react-router-dom'
 
 // COMPONENT
 import SearchIcon from '@mui/icons-material/Search';
-
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+
 import * as styled from '../style/main.style'
 import Header from '../Header'
 import Navbar from '../Navbar'

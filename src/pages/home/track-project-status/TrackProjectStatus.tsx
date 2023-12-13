@@ -199,7 +199,7 @@ const TrackProjectStatus: React.FC = () => {
                     align: "center",
                     class: true,
                     component: (
-                        <div className='w-full min-w-[100px] md:min-w-[312px] flex flex-col md:flex-row gap-y-3'>
+                        <div className='w-full min-w-[100px] md:min-w-[312px] flex flex-col md:flex-row gap-y-3 gap-x-4'>
                             <span className='text-base_secondary flex items-center flex-col mt-4 w-full'>
                                 <RangeCustom num={percentage} />
                                 <span>

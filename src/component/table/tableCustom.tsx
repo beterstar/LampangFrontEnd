@@ -339,7 +339,7 @@ export default function TableCustom(props: any) {
                                     <TableCell
                                         key={headCell.id}
                                         align={headCell.align ? headCell.align : headCell.id === 'updatedBy' || headCell.id === 'action' || headCell.id === 'status' || headCell.id === 'no' || false ? 'center' : headCell.id === 'price' ? 'right' : 'left'}
-                                        padding={headCell.disablePadding ? 'none' : 'none'}
+                                        padding={headCell.disablePadding ? 'normal' : 'none'}
                                         sortDirection={sortBy === headCell.id ? sortType.toLowerCase() : false}
                                         className={headCell?.class ? classes.sticky : ''}
                                         sx={{ width: headCell.width ? headCell.width : 'auto' }}

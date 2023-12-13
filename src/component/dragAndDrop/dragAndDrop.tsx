@@ -13,7 +13,6 @@ const ContainerDragFile = styled('div')(({ theme }) => ({
     width: '100%',
     maxWidth: "100%",
     height: '100%',
-    minHeight: '80px',
     [theme.breakpoints.down('md')]: {
       minHeight: "170px",
       marginTop: '1rem'
@@ -93,6 +92,11 @@ const FileDragAndDrop: React.FC<props> = (props: props) => {
         </div>
       )}
       <ContainerDragFile
+        sx={{
+          '.custom_style': {
+            minHeight: props.allCenter ? props.minHeight : "80px",
+          }
+        }}
         style={{ minHeight: props.minHeight }}
         className="relative w-full h-auto">
         <FileUploader

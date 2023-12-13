@@ -1,19 +1,19 @@
 export const colors = {
 
 
-    lampang_primary:"#026735",
-    lampang_secondary:"#FFC700",
-    lampang_sub_primary:"#EFFFF7",
-    lampang_text_secondary:"#858C95",
-    lampang_bg_input_secondary:"#F8F9FB",
-    lampang_button_secondary:"#EEA23E",
-    primary_main:"#0A77FF",
-    primary_sub_main:"#FBFDFE",
-    sub_danger:"#FFEFEE",
-   
+    lampang_primary: "#026735",
+    lampang_secondary: "#FFC700",
+    lampang_sub_primary: "#EFFFF7",
+    lampang_text_secondary: "#858C95",
+    lampang_bg_input_secondary: "#F8F9FB",
+    lampang_button_secondary: "#EEA23E",
+    primary_main: "#0A77FF",
+    primary_sub_main: "#FBFDFE",
+    sub_danger: "#FFEFEE",
+    lampang_disable: "#E5E5E7",
 
     // theme main color
-    themeMainColor:"#026735",
+    themeMainColor: "#026735",
     // main color
     transparent: "transparent",
     themeSecondColor: "#026735",

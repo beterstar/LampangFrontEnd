@@ -60,25 +60,25 @@ export const Menu: menuProps[] = [
             {
                 subMenuId: 6,
                 subMenuName: "ผลสัมฤทธิ์การดำเนินงาน",
-                path: "/",
+                path: "/auth/report/operational-achievements",
                 subThirdMenu: []
             },
             {
                 subMenuId: 7,
                 subMenuName: "ผลการใช้จ่ายงบประมาณ",
-                path: "/",
+                path: "//auth/report/budget-spending",
                 subThirdMenu: []
             },
             {
                 subMenuId: 8,
                 subMenuName: "ความสำเร็จของโครงการ",
-                path: "/",
+                path: "/auth/report/project-success",
                 subThirdMenu: []
             },
             {
                 subMenuId: 9,
                 subMenuName: "ความคืบหน้าโครงการ",
-                path: "/",
+                path: "/auth/report/project-progress",
                 subThirdMenu: []
             },
         ]

@@ -8,6 +8,7 @@ module.exports = {
       primary: "#026735",
       sub_primary: "#EFFFF7",
       bg_secondary:"#F8F9FB",
+      text_primary:"#0A77FF",
       base_secondary:"#858C95",
       base_disable:"#525D6A",
       base_border_upload:"#C1C3C7",

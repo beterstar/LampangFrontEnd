@@ -26,10 +26,12 @@ import { notification } from '../../../../constants/notificationMessage'
 import { swalError } from '../../../../component/notification/swal'
 import { ProjectProgressReportBox, SectionStatusProject } from './style/ViewTrackProjectStatus.style'
 import TrackingProcess from './tracking/TrackingProcess'
+import FileTracking from './file/FileTracking'
+import ImageTracking from './file/ImageTracking'
+
 
 // TYPE
 import { operation, projectProgressReport } from './type/viewTrack.type'
-import FileTracking from './file/FileTracking'
 
 function projectTabsProps(index: number) {
     return {
@@ -50,7 +52,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
-            isShow: false,
+            isShow: true,
             file: [
                 {
                     fileId: 1,
@@ -64,7 +66,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
-            isShow: false,
+            isShow: true,
             file: [
                 {
                     fileId: 1,
@@ -78,7 +80,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
-            isShow: false,
+            isShow: true,
             file: [
                 {
                     fileId: 1,
@@ -92,7 +94,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
-            isShow: false,
+            isShow: true,
             file: [
                 {
                     fileId: 1,
@@ -106,7 +108,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
-            isShow: false,
+            isShow: true,
             installmentWork: {
                 deliveryDate: "2023-02-11",
                 dateOfInspection: "2023-02-11",
@@ -130,7 +132,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
-            isShow: false,
+            isShow: true,
             file: [
                 {
                     fileId: 1,
@@ -144,7 +146,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
-            isShow: false,
+            isShow: true,
             file: [
                 {
                     fileId: 1,
@@ -158,7 +160,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
-            isShow: false,
+            isShow: true,
             file: [
                 {
                     fileId: 1,
@@ -172,7 +174,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
-            isShow: false,
+            isShow: true,
             file: [
                 {
                     fileId: 1,
@@ -186,7 +188,7 @@ const ViewTrackProjectStatus = (props: Props) => {
             createDate: "2023-02-20",
             date: "2021-02-21",
             note: "-",
-            isShow: false,
+            isShow: true,
             file: [
                 {
                     fileId: 1,
@@ -1245,12 +1247,13 @@ const ViewTrackProjectStatus = (props: Props) => {
                                     ))}
                                 </div>
                                 {/* การติดตามผลการดำเนินงาน 👇*/}
-
                                 <TrackingProcess />
 
                                 {/* เอกสาร 👇*/}
                                 <FileTracking />
 
+                                {/* รูปภาพ 👇*/}
+                                <ImageTracking />
                             </Box>
                         </article>
                     </section>
