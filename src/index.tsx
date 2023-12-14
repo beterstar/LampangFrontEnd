@@ -8,6 +8,7 @@ import { ThemeProvider } from '@mui/material';
 import { theme } from './utils/themes';
 import './i18n'
 import store from './store/store';
+// import store from './app/store';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(

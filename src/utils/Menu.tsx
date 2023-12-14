@@ -66,7 +66,7 @@ export const Menu: menuProps[] = [
             {
                 subMenuId: 7,
                 subMenuName: "ผลการใช้จ่ายงบประมาณ",
-                path: "//auth/report/budget-spending",
+                path: "/auth/report/budget-spending",
                 subThirdMenu: []
             },
             {
@@ -99,7 +99,7 @@ export const Menu: menuProps[] = [
             {
                 subMenuId: 17,
                 subMenuName: "ปีงบประมาณ",
-                path: "/",
+                path: "/auth/setting/fiscal-year",
                 subThirdMenu: [
                     {
                         subThirdMenuId: 18,
@@ -131,19 +131,19 @@ export const Menu: menuProps[] = [
             {
                 subMenuId: 23,
                 subMenuName: "แผนงาน",
-                path: "/",
+                path: "/auth/setting/plan",
                 subThirdMenu: []
             },
             {
                 subMenuId: 24,
                 subMenuName: "แหล่งที่มางบประมาณ",
-                path: "/",
+                path: "/auth/setting/budget-source",
                 subThirdMenu: []
             },
             {
                 subMenuId: 25,
                 subMenuName: "หน่วยงาน",
-                path: "/",
+                path: "/auth/setting/agency",
                 subThirdMenu: []
             },
             {

@@ -11,6 +11,7 @@ export const colors = {
     primary_sub_main: "#FBFDFE",
     sub_danger: "#FFEFEE",
     lampang_disable: "#E5E5E7",
+    lampang_disable_gray:"#525D6A",
 
     // theme main color
     themeMainColor: "#026735",

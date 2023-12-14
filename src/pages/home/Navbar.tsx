@@ -24,7 +24,7 @@ const LogoBox = styled(Box)(({ theme }) => ({
         padding: "0 1rem",
         'div': {
             'img': {
-                display: "none"
+                // display: "none"
             }
         },
         'span': {
@@ -75,15 +75,15 @@ const Navbar: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ stiffness: 100, ease: "backInOut" }}
-            className={`min-h-screen z-30 bg-white ${active ? 'w-[224px]' : 'w-[4.3rem]'} ${!active && 'hidden'} duration-200 shadow-md`}
+            className={`min-h-screen z-30 bg-white ${active ? 'w-[224px]' : 'w-[4.3rem]'} duration-200 shadow-md`}
         >
             <LogoBox>
                 <div>
                     <img src={RouteImage.login_logo} width={56} height={56} alt="logo" />
                 </div>
-                <span className='block md:hidden'>
+                {/* <span className='block md:hidden'>
                     <CloseIcon className='cursor-pointer' onClick={() => dispatch(setFalse())} />
-                </span>
+                </span> */}
             </LogoBox>
             <MenuBox>
                 {Menu.map((list: menuProps, index: number) => (
@@ -149,9 +149,12 @@ const Navbar: React.FC = () => {
                                         initial={{ y: -100, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
                                         transition={{ stiffness: 200, delay: .1 }}
-                                        className={`${!active && 'hidden'} h-auto w-full cursor-pointer hover:bg-sub_primary`} key={subMenu.subMenuId}>
+                                        className={`${!active && 'hidden'} h-auto w-full cursor-pointer hover:bg-sub_primary`}
+                                        key={subMenu.subMenuId}>
                                         <li className='pl-12 py-3 pt-3'>
-                                            <Typography className='text-primary whitespace-pre' variant='body1'>
+                                            <Typography
+                                                className={`${location.pathname === subMenu.path ? 'text-[#000] text-bold' : 'text-primary'} whitespace-pre`}
+                                                variant='body1'>
                                                 {subMenu.subMenuName}
                                             </Typography>
                                         </li>

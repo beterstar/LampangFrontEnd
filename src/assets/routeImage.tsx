@@ -31,6 +31,10 @@ import addForm from './icons/add-form.svg'
 import editIcon from './icons/edit.svg'
 import deleted from './icons/delete.svg'
 import cloudIconUpload from './icons/upload.svg'
+import dropdownDot from './icons/dropdownDot.svg'
+import editPen from './icons/editPen.svg'
+import copy from './icons/copy.svg'
+import detailIcon from './icons/detailIcon.svg'
 
 
 // alert
@@ -71,9 +75,13 @@ export const RouteImage = {
     arrowTopBottom: arrowTopBottom,
     addForm: addForm,
     list: list,
-    editIcon:editIcon,
-    delete:deleted,
-    cloudIconUpload:cloudIconUpload
+    editIcon: editIcon,
+    delete: deleted,
+    cloudIconUpload: cloudIconUpload,
+    dropdownDot: dropdownDot,
+    editPen: editPen,
+    copy: copy,
+    detailIcon: detailIcon
 
 
 }
