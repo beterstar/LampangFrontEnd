@@ -149,19 +149,19 @@ export const Menu: menuProps[] = [
             {
                 subMenuId: 26,
                 subMenuName: "ผู้ใช้งานระบบ",
-                path: "/",
+                path: "/test",
                 subThirdMenu: []
             },
             {
                 subMenuId: 27,
                 subMenuName: "กำหนดสิทธิ์",
-                path: "/",
+                path: "/test",
                 subThirdMenu: []
             },
             {
                 subMenuId: 28,
                 subMenuName: "ปรับแต่ง",
-                path: "/",
+                path: "/auth/setting/customize",
                 subThirdMenu: []
             },
         ]

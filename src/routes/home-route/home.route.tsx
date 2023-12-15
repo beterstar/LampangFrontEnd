@@ -19,6 +19,7 @@ import PlanSetting from "../../pages/home/setting/plan/PlanSetting";
 import BudgetSource from "../../pages/home/setting/budget-source/BudgetSource";
 import AgencyInformation from "../../pages/home/setting/agency-information/AgencyInformation";
 import DetailAgency from "../../pages/home/setting/agency-information/detail/DetailAgency";
+import CustomizeSetting from "../../pages/home/setting/customize/CustomizeSetting";
 
 type pathProps = {
     reportPath: string;
@@ -26,7 +27,7 @@ type pathProps = {
 }
 const path: pathProps = {
     reportPath: "report",
-    settingPath: 'setting'
+    settingPath: '/auth/setting'
 }
 
 
@@ -137,7 +138,7 @@ export const homeRoute: routes[] = [
     // ตั้งค่า
     {
         key: "HOME_PROJECT_SETTING_FISCALYEAR",
-        path: `/auth/${path.settingPath}/fiscal-year`,
+        path: `${path.settingPath}/fiscal-year`,
         labelNameEn: "Fiscal year",
         labelNameTh: "ปีงบประมาณ",
         component: FiscalYear
@@ -145,30 +146,37 @@ export const homeRoute: routes[] = [
 
     {
         key: "HOME_PROJECT_SETTING_PLANE",
-        path: `/auth/${path.settingPath}/plan`,
+        path: `${path.settingPath}/plan`,
         labelNameEn: "Plan",
         labelNameTh: "แผนงาน",
         component: PlanSetting
     },
     {
         key: "HOME_PROJECT_SETTING_BUDGET_SOURCE",
-        path: `/auth/${path.settingPath}/budget-source`,
+        path: `${path.settingPath}/budget-source`,
         labelNameEn: "Budget-Source",
         labelNameTh: "แหล่งที่มาของงบประมาณ",
         component: BudgetSource
     },
     {
         key: "HOME_PROJECT_SETTING_AGENCY",
-        path: `/auth/${path.settingPath}/agency`,
+        path: `${path.settingPath}/agency`,
         labelNameEn: "Agency",
         labelNameTh: "หน่วยงาน",
         component: AgencyInformation
     },
     {
         key: "HOME_PROJECT_SETTING_AGENCY_DETAIL",
-        path: `/auth/${path.settingPath}/agency/detail/:id`,
+        path: `${path.settingPath}/agency/detail/:id`,
         labelNameEn: "Detail Agency",
         labelNameTh: "ข้อมูลหน่วยงาน",
         component: DetailAgency
+    },
+    {
+        key: "HOME_PROJECT_SETTING_CUSTOMIZE",
+        path: `${path.settingPath}/customize`,
+        labelNameEn: "Customize",
+        labelNameTh: "ปรับแต่ง",
+        component: CustomizeSetting
     },
 ]
